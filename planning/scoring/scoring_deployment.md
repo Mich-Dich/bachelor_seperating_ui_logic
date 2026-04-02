@@ -64,21 +64,6 @@ Hexagonal Architecture provides maximum deployment flexibility by placing busine
 
 **Score: 10/10**
 
-### Plugin System
-Plugin systems enable flexible deployment by allowing different combinations of plugins to be bundled for different environments. A core system can be deployed with a minimal plugin set for embedded devices, with a full feature set for desktop, and with specialized plugins for server environments—all from the same codebase [33]. Plugins can be dynamically loaded at runtime, enabling runtime environment adaptation without redeployment. This architecture is particularly effective for applications requiring extensive customization per deployment scenario, such as CI/CD tools and IDEs [10]. However, plugin compatibility must be managed across deployment targets.
-
-**Pros:**
-- Different plugin bundles per deployment environment
-- Dynamic loading enables runtime adaptation
-- Core unchanged across all deployment scenarios
-
-**Cons:**
-- Plugin compatibility matrix complexity
-- Runtime classloading adds deployment overhead
-- Embedded deployments may lack dynamic loading support
-
-**Score: 9/10**
-
 ### Onion Architecture
 Onion Architecture achieves equivalent deployment flexibility to Hexagonal Architecture through concentric layers with inward-pointing dependencies. The domain core and application services contain all business logic with no references to infrastructure or UI, enabling the same core to support any number of presentation layers [27]. The presenter layer explicitly manages input/output for different interfaces—HTTP APIs, CLI tools, and desktop applications can all be attached to the same core [27]. This architecture naturally supports producing different binaries for different platforms by swapping outer layers while preserving the inner layers intact. The clear separation allows embedded deployments to use lightweight infrastructure adapters without affecting domain logic.
 

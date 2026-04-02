@@ -67,21 +67,6 @@ Hexagonal Architecture introduces significant performance overhead through its e
 
 **Score: 5/10**
 
-### Plugin System
-Plugin systems incur performance costs primarily during initialization and inter-plugin communication. Dynamic library loading operations involve symbol resolution, memory relocation, and security checks (ASLR, DEP) that add startup latency proportional to the number of loaded plugins [45]. Once loaded, well-designed plugins execute with performance comparable to statically linked code, though cross-plugin calls traverse abstraction boundaries that may prevent certain compiler optimizations such as inlining. Dual-mode operation strategies (SAFE vs. FAST modes) allow developers to trade safety guarantees for maximum execution speed when performance is critical [45]. For embedded systems, the runtime overhead of dynamic loading may be eliminated by static linking of plugins.
-
-**Pros:**
-- Runtime performance comparable to static linking [45]
-- Unused plugins consume no memory
-- FAST mode optimizes for maximum speed
-
-**Cons:**
-- Dynamic loading adds startup latency [45]
-- Cross-plugin calls prevent compiler optimizations
-- Symbol resolution overhead per plugin load
-
-**Score: 6/10**
-
 ### Onion Architecture
 Onion Architecture introduces multiple concentric layers (Domain, Application Services, Infrastructure, Presentation) with strict inward dependencies, each adding indirection to every operation. Each layer transition requires method calls through interface boundaries, increasing call stack depth and preventing certain compiler optimizations. The abstraction layers, while beneficial for maintainability, add measurable latency compared to direct implementations [40]. For simple operations, the overhead of traversing multiple layers can exceed the cost of the operation itself. The pattern can introduce unnecessary layers for straightforward applications, contributing to binary size growth and reduced cache efficiency.
 

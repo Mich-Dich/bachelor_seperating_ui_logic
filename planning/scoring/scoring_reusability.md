@@ -65,21 +65,6 @@ Hexagonal Architecture achieves exceptional reusability by placing business logi
 
 **Score: 10/10**
 
-### Plugin System
-Plugin systems enable exceptional reusability by allowing individual plugins to be developed, tested, and deployed independently from the core application . Plugins can be reused across different projects that share the same core extension interface, making them highly portable. The CERN-HSF YAMPL project demonstrates plugin system reusability with cross-language bindings (C++/Python) enabling plugins to work across language boundaries . Plugins can be packaged and distributed as independent units, allowing organizations to build reusable component libraries. For the user's ImGui application, plugins can encapsulate reusable visualization components (custom ImPlot chart types, ImNodeFlow node definitions) that can be loaded dynamically into different projects without modifying core code.
-
-**Pros:**
-- Plugins reusable across any compatible core system
-- Independent versioning and distribution
-- Cross-language plugin support (C++/Python via pybind11)
-
-**Cons:**
-- Plugin interfaces must remain stable across projects
-- Compatibility management between plugins and cores
-- Distribution overhead for simple reusable components
-
-**Score: 9/10**
-
 ### Onion Architecture
 Onion Architecture provides reusability equivalent to Hexagonal Architecture through concentric layers with inward-pointing dependencies. The domain core and application services contain all business logic without references to infrastructure or UI, enabling reuse across any number of presentation layers . The dependency inversion principle ensures that outer layers depend on inner layers, never the reverse, making the core completely portable. This architecture encourages domain-driven design where the domain model can be extracted and reused across multiple applications serving similar business contexts. For C++/Python hybrid applications, Onion Architecture allows the domain logic (implemented in C++ for performance) to be reused across Python-based services and UI layers, with clear separation enforced by the layer structure.
 

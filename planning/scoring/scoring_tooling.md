@@ -63,21 +63,6 @@ Hexagonal Architecture enjoys excellent support across both C++ and Python ecosy
 
 **Score: 9/10**
 
-### Plugin System
-Plugin systems have robust tooling support in both C++ and Python. Python's native import system and entry points provide straightforward plugin discovery mechanisms. C++ plugin systems require careful cross-platform handling of dynamic library loading (dlopen on POSIX, LoadLibrary on Windows), but established patterns exist with proper symbol visibility control [60] [62]. Build automation requires careful handling of library paths and installation directories, but CMake provides cross-platform support for these concerns. Compiler optimizations like dead code elimination must be carefully managed to preserve exported plugin symbols. The OpenAssetIO project demonstrates production C++ plugin systems with cross-platform symbol management and test infrastructure [62].
-
-**Pros:**
-- Python entry points provide native discovery
-- C++ cross-platform patterns established
-- Well-supported by CMake for library management
-
-**Cons:**
-- Cross-platform dynamic loading requires care
-- Symbol visibility must be managed for dead code elimination
-- Test setup requires proper library path configuration
-
-**Score: 9/10**
-
 ### Onion Architecture
 Onion Architecture tooling support mirrors Hexagonal Architecture, with strong Python framework support and reasonable C++ implementation capabilities. The pattern's concentric layer structure maps to Python packages and C++ namespaces without requiring specialized tooling. Build automation can enforce layer dependencies using CMake's target_link_libraries restrictions or Python's import linting tools. However, the pattern's conceptual complexity makes IDE support for architecture enforcement limited, requiring manual discipline. The multiple abstraction layers remain transparent to compilers and linkers, imposing no performance penalties.
 
@@ -137,17 +122,21 @@ MVA lacks dedicated framework support in both C++ and Python ecosystems, as the 
 ### Microkernel Architecture
 Microkernel architecture tooling in C++ focuses on inter-process communication (IPC) and shared library loading, with established libraries for message passing. Python's multiprocessing and socket libraries provide similar capabilities. The pattern's minimal core design enables aggressive dead code elimination for the kernel, while plugins remain independently buildable. C++ implementations require careful cross-platform handling of shared library loading, similar to plugin systems, with symbol visibility management [62]. Build automation for microkernel systems involves coordinating multiple build artifacts (core executable, plugin libraries) with careful installation path configuration. The pattern's complexity requires robust CMake or Makefile infrastructure for managing dependencies between components.
 
+Modern compilers (GCC, Clang) and linkers provide strong support for the needed optimizations: LTO, dead‑code elimination, function sections, and conditional linking via preprocessor or build scripts. IDEs and build systems (CMake, Make) can handle multiple targets and plugin management.
+
 **Pros:**
 - Minimal core enables aggressive dead code elimination
-- Python multiprocessing supports isolation
-- Independent plugin builds
+- Compiler optimizations are fully usable with static linking.
+- Build automation can generate desktop, CI/CD, and embedded variants from the same codebase.
+- Languages with good module systems (e.g., C++, Rust) naturally support plugin interfaces.
+- No mandatory framework – you design the plugin API to suit your needs.
 
 **Cons:**
-- Complex cross-platform dynamic loading
-- Multiple artifacts increase build complexity
-- IPC libraries require integration
+- No standard framework; you must implement the plugin infrastructure manually.
+- Dynamic plugin loading may require platform‑specific code (e.g., dlopen on Linux, LoadLibrary on Windows).
+- Conditional static linking demands careful management of build scripts and preprocessor symbols.
 
-**Score: 6/10**
+**Score: 8/10**
 
 
 

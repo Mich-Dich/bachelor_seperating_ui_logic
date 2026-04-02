@@ -62,21 +62,6 @@ Hexagonal Architecture represents the gold standard for testability by placing b
 
 **Score: 10/10**
 
-### Plugin System
-Plugin architecture enables independent testing of each plugin module, as plugins are developed and deployed separately from the core system. The core defines stable extension interfaces, allowing plugins to be unit tested against those contracts with mock core implementations. Integration testing requires careful management of plugin isolation, as runtime loading introduces complexity [13]. Observability can be challenging when multiple plugins interact, as side effects may span module boundaries. The pattern supports testability through clear module boundaries, though verifying compatibility across plugin versions requires additional integration testing effort.
-
-**Pros:**
-- Each plugin testable independently from core
-- Clear interface contracts enable mock-based testing
-- Plugins can be tested in isolation before deployment
-
-**Cons:**
-- Runtime plugin loading complicates integration testing [13]
-- Cross-plugin interactions difficult to observe
-- Compatibility testing requires matrix of plugin combinations
-
-**Score: 8/10**
-
 ### Onion Architecture
 Onion Architecture enforces strict dependency inversion, ensuring all dependencies point inward toward the domain core [12]. The domain layer contains only business logic with no references to infrastructure or UI, making it fully testable in isolation. Application services orchestrate use cases and can be tested with mocked repository interfaces. The concentric layer structure provides clear separation where outer layers depend on inner layers, never the reverse. This design achieves maximum controllability as all external dependencies are injected through interfaces defined by the inner layers. Testing can proceed from innermost domain logic outward, with each layer independently verified.
 

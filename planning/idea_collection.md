@@ -1,16 +1,17 @@
 
-# Title: Analysis of different software architecture patterns for User-interface and Business-logic separation
+# Title: Analysis of Software Architecture Patterns and Implementation of a Selected Pattern for User Interface and Business Logic Separation
 
-## Abstract:
-The primary objective of this bachelor thesis is to **analyze and compare software architectural patterns that distinctly separate business logic from user interface concerns**, with the goal of improving modularity, testability, and deployability across different execution environments. This work investigates well‑known design patterns such as **Model‑View‑Controller (MVC)**, **Model‑View‑Presenter (MVP)**, and **Model‑View‑ViewModel (MVVM)**, as well as additional architectural approaches such as layered/service‑oriented and component‑based structures, in order to identify their strengths and limitations for decoupling core functionality from presentation logic. [Source](https://appmaster.io/blog/architectural-patterns-mvc-mvp-and-mvvm#model-view-presenter-mvp)
+## Abstract
 
-The thesis applies these patterns to a practical case study: restructuring an existing application used to manipulate test benches and communicate with connected devices, so that the core testing engine (business logic) is made fully independent of any specific UI platform. The redesigned system will support:
+The primary objective of this bachelor thesis is to **analyse and compare software architectural patterns that enforce a clear separation between business logic and user interface concerns**, with the goal of improving modularity, testability, and deployment flexibility across diverse execution environments. The investigation covers a broad set of architectural styles, which are grouped into categories such as **classical presentation-separation patterns**, **domain-centric architectures**, and **plugin-based or facade-oriented patterns**. For each category, the thesis examines how the core business logic can be isolated from UI frameworks, external services, and infrastructure details.
 
-* A traditional desktop application interface,
-* A CI‑compatible command‑line or headless application capable of running on a build server, and
-* A lightweight executable version suitable for deployment and execution on embedded microcontrollers.
+Building on this theoretical evaluation, the thesis applies the findings to a practical case study: restructuring an existing application used to control test benches and communicate with connected devices. The goal is to make the core testing engine (business logic) completely independent of any specific UI platform. The redesigned system will support three distinct deployment variants:
 
-The outcomes include both a theoretical evaluation of architectural alternatives and an empirical assessment of the chosen pattern in terms of modularity, scalability, and cross‑platform deployment. [Source](https://appmaster.io/blog/architectural-patterns-mvc-mvp-and-mvvm#model-view-presenter-mvp)
+* A traditional desktop application with a graphical user interface,
+* A headless, CI/CD-compatible application that runs on build servers, and
+* A lightweight executable tailored for resource-constrained microcontrollers.
+
+The outcomes include a structured comparison of the architectural alternatives, a justification for selecting one pattern based on the identified categories, and an empirical assessment of the chosen implementation in terms of modularity, testability, and cross-platform deployability.
 
 
 
@@ -130,13 +131,28 @@ I write an application for my firm. The application allows one to manipulate tes
 The main Focus of this bachelor thesis is the separation between engine and UI.
 Identifying 3 widely used patterns for separations and comparing them (with focus on what the Firm want for the future).
 Then applying one of the patterns in a hand-on example.
-
 The bachelor should not be firm specific. it should be about the work, leaving any mention of a firm out of the title/abstract
 
 ## use Static Lib:
 The business logic is developed and stored as a **static library**. One or multiple executable are then build that use this lib, such as a general purpose application for PC development and a smaller application that can run on a microprocessor and only executes a predefined test-case/test-suite
 
-
+## Glossary
+| Term | Definition |
+|------|-------------|
+| **User Interface (UI)** | The part of an application that handles user interaction and presentation. In this thesis, UI is separated from business logic to allow different front‑ends (desktop, headless, embedded). |
+| **Business Logic** | The core functionality of the application, independent of any presentation layer. In this case: the test engine that manipulates test benches and communicates with devices. |
+| **Test Configuration** | A set of parameters, commands, or scripts that define a specific test case or test suite. Can be loaded dynamically (desktop/CI) or precompiled (embedded). |
+| **Static Library** | A collection of object files (`.a` on Linux/macOS, `.lib` on Windows) that is linked directly into an executable at build time. Used to package the business logic for reuse across different applications. |
+| **Dead Code Elimination (DCE)** | A compiler/linker optimization that removes functions or data that are never referenced. When combined with `-ffunction-sections` and `-Wl,--gc-sections`, it allows discarding unused code even from within an object file. |
+| **Conditional Static Linking** | The technique of including or excluding specific modules (plugins) at compile time using preprocessor directives or build‑system logic, rather than at runtime. Essential for creating a lightweight embedded variant. |
+| **Microkernel Architecture** | A pattern that separates a minimal core system from extensible modules (plugins). |
+| **Headless Application** | An application that runs without a graphical user interface, typically in a server or CI/CD environment. CI/CD‑compatible variant reads and executes test configurations without editing capabilities. |
+| **Embedded / Microcontroller Target** | A resource‑constrained environment (limited RAM, flash, CPU speed) where the test‑execution application must be lightweight. Two approaches: runtime configuration reception (flexible) or precompiled configuration (efficient). |
+| **Cross‑compilation** | The process of compiling source code on one platform (e.g., x86 desktop) to produce an executable for another platform (e.g., ARM microcontroller). Relevant for building the embedded variant from the same codebase. |
+| **Plugin** | An independent, replaceable module that extends the core system without modifying it. In a microkernel architecture, UI and optional features are implemented as plugins. |
+| **LTO (Link‑Time Optimization)** | A compiler optimization that analyses the whole program during linking, enabling inlining and cross‑module dead code elimination. Particularly useful when statically linking many small object files. |
+| **Service Provider Interface (SPI)** | A contract (interface) defined by the microkernel that plugins must implement to integrate with the core. Ensures loose coupling and testability. |
+| **CI/CD Pipeline** | Continuous Integration / Continuous Deployment – an automated build, test, and deployment process. CI/CD‑compatible application is designed to run as a step in such a pipeline. |
 
 
 
