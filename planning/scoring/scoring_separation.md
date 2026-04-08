@@ -1,4 +1,4 @@
-## Modularity / Separation of Concerns
+## Separation
 | Description | Measures how well the pattern isolates UI from business logic. |
 |-|-|
 | Sub-factors | Degree of coupling (tight vs loose) <br> Ease of replacing one module without affecting others <br> Support for multiple UI platforms |
@@ -6,7 +6,7 @@
 
 
 ### Model-View-Controller (MVC)
-MVC establishes a foundational separation between UI (View), business logic (Model), and flow control (Controller). The Model remains independent of the View, enabling multiple visual representations of the same data [0]. However, the Controller often becomes tightly coupled with both the View and Model, creating a bottleneck in complex applications. Replacing the UI requires modifications to the Controller, which reduces modularity compared to more modern patterns. The pattern supports multiple UI platforms through shared Models but requires significant effort to fully decouple.
+MVC establishes a foundational separation between UI (View), business logic (Model), and flow control (Controller). The Model remains independent of the View, enabling multiple visual representations of the same data [0]. However, the Controller often becomes tightly coupled with both the View and Model, creating a bottleneck in complex applications. Replacing the UI requires modifications to the Controller, which reduces Separation compared to more modern patterns. The pattern supports multiple UI platforms through shared Models but requires significant effort to fully decouple.
 
 **Pros:**
 - Clear separation between data (Model) and presentation (View)
@@ -78,7 +78,7 @@ Onion Architecture organizes concentric layers with domain logic at the center, 
 **Score: 10/10**
 
 ### Front Controller Pattern
-Front Controller centralizes request handling but does not fundamentally decouple UI from business logic [5]. The pattern provides a single entry point for all UI requests, which can centralize cross-cutting concerns like authentication and logging. However, business logic often remains embedded in or tightly coupled to the controller. Replacing the UI typically requires significant modifications to the controller logic. This pattern is better characterized as a UI control mechanism rather than a separation architecture.
+Front Controller centralizes request handling but does not fundamentally decouple UI from business logic [4]. The pattern provides a single entry point for all UI requests, which can centralize cross-cutting concerns like authentication and logging. However, business logic often remains embedded in or tightly coupled to the controller. Replacing the UI typically requires significant modifications to the controller logic. This pattern is better characterized as a UI control mechanism rather than a separation architecture.
 
 **Pros:**
 - Centralized request handling simplifies routing
@@ -93,7 +93,7 @@ Front Controller centralizes request handling but does not fundamentally decoupl
 **Score: 5/10**
 
 ### Backend-for-Frontend (BFF)
-BFF achieves strong separation by creating dedicated backend services for each UI platform, isolating UI-specific concerns from core business logic [6]. Each BFF tailors responses to its specific client (web, mobile, embedded), allowing UI requirements to evolve independently. Core business services remain unchanged regardless of UI modifications. This pattern excels in multi-platform scenarios where each UI has distinct data and interaction patterns. However, operational overhead increases with multiple BFF services.
+BFF achieves strong separation by creating dedicated backend services for each UI platform, isolating UI-specific concerns from core business logic [5]. Each BFF tailors responses to its specific client (web, mobile, embedded), allowing UI requirements to evolve independently. Core business services remain unchanged regardless of UI modifications. This pattern excels in multi-platform scenarios where each UI has distinct data and interaction patterns. However, operational overhead increases with multiple BFF services.
 
 **Pros:**
 - Complete isolation of UI-specific logic from core
@@ -143,9 +143,6 @@ Microkernel architecture separates a minimal core system from extensible modules
 [1]: [https://learn.microsoft.com/en-us/training/modules/design-mvvm-viewmodel/2-what-is-mvvm?WT.mc_id=friends-0000-jamont&ns-enrollment-type=learningpath&ns-enrollment-id=learn.dotnet-maui.build-apps-with-dotnet-maui](https://learn.microsoft.com/en-us/training/modules/design-mvvm-viewmodel/2-what-is-mvvm?WT.mc_id=friends-0000-jamont&ns-enrollment-type=learningpath&ns-enrollment-id=learn.dotnet-maui.build-apps-with-dotnet-maui)
 [2]: [https://www.finclip.com/news/f/31516.html](https://www.finclip.com/news/f/31516.html)
 [3]: [https://soft.zhiding.cn/software_zone/2008/0113/706390.shtml](https://soft.zhiding.cn/software_zone/2008/0113/706390.shtml)
-[4]: [https://github.com/yuntai229/Onion-Architecture-Go](https://github.com/yuntai229/Onion-Architecture-Go)
-[5]: [https://docs.oracle.com/cd/E19786-01/817-2334/03_design_issues.html](https://docs.oracle.com/cd/E19786-01/817-2334/03_design_issues.html)
-[6]: [https://learn.microsoft.com/zh-hk/azure/architecture/patterns/backends-for-frontends](https://learn.microsoft.com/zh-hk/azure/architecture/patterns/backends-for-frontends)
-
-
+[4]: [https://docs.oracle.com/cd/E19786-01/817-2334/03_design_issues.html](https://docs.oracle.com/cd/E19786-01/817-2334/03_design_issues.html)
+[5]: [https://learn.microsoft.com/zh-hk/azure/architecture/patterns/backends-for-frontends](https://learn.microsoft.com/zh-hk/azure/architecture/patterns/backends-for-frontends)
 

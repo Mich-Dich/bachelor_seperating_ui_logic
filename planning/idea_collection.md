@@ -3,15 +3,17 @@
 
 ## Abstract
 
-The primary objective of this bachelor thesis is to **analyse and compare software architectural patterns that enforce a clear separation between business logic and user interface concerns**, with the goal of improving modularity, testability, and deployment flexibility across diverse execution environments. The investigation covers a broad set of architectural styles, which are grouped into categories such as **classical presentation-separation patterns**, **domain-centric architectures**, and **plugin-based or facade-oriented patterns**. For each category, the thesis examines how the core business logic can be isolated from UI frameworks, external services, and infrastructure details.
+The primary objective of this bachelor thesis is to analyse software architectural patterns that enforce a clear separation between business logic—the part of the system responsible for core processing, calculations, and device control—and user interface concerns. The focus is on ensuring high-quality boundaries between these two areas, which improves maintainability, clarity of responsibilities, and supports flexible deployment across different environments.
 
-Building on this theoretical evaluation, the thesis applies the findings to a practical case study: restructuring an existing application used to control test benches and communicate with connected devices. The goal is to make the core testing engine (business logic) completely independent of any specific UI platform. The redesigned system will support three distinct deployment variants:
+The investigation covers a broad set of architectural styles, organized into classical presentation-separation patterns, domain-centric architectures, and plugin-based or facade-oriented patterns. For each style, the thesis examines how business logic can be designed to remain conceptually independent from UI frameworks, external services, and infrastructure details, while still being operable through UI platforms.
 
-* A traditional desktop application with a graphical user interface,
-* A headless, CI/CD-compatible application that runs on build servers, and
-* A lightweight executable tailored for resource-constrained microcontrollers.
+Based on this analysis, the thesis applies a selected architectural pattern to restructure an existing application used to control test benches and communicate with connected devices. The redesign ensures that the business logic is separated from the UI, while remaining accessible through it. The system is implemented to support three deployment variants, each containing the business logic:
 
-The outcomes include a structured comparison of the architectural alternatives, a justification for selecting one pattern based on the identified categories, and an empirical assessment of the chosen implementation in terms of modularity, testability, and cross-platform deployability.
+* A desktop application with a graphical user interface, suitable for direct human interaction,
+* A headless application without a user interface, designed to run on build servers and support automated testing workflows, and
+* A lightweight executable for resource-constrained microcontrollers, which may include a minimal user interface if required.
+
+The outcomes include a structured comparison of the architectural alternatives, a justification for selecting the chosen pattern, the implementation of that pattern across the deployment variants, and an evaluation of the implementation in terms of separation quality, maintainability, and its suitability for automated testing of connected systems.
 
 
 
@@ -50,77 +52,62 @@ Both approaches represent different trade-offs between flexibility and performan
 
 # Evaluation Categories
 
-### 1. Modularity / Separation of Concerns
-|Description | Measures how well the pattern isolates UI from business logic. |
+### 1. Separation
+| Description | Measures how well the pattern isolates UI from business logic. |
 |-|-|
-|Sub-factors | Degree of coupling (tight vs loose) <br> Ease of replacing one module without affecting others <br> Support for multiple UI platforms |
-|Metrics     | Number of dependencies between layers <br> Lines of code that need to change when modifying logic/UI |
-
+| Sub-factors | Degree of coupling (tight vs loose) <br> Ease of replacing one module without affecting others <br> Support for multiple UI platforms |
+| Metrics | Number of dependencies between layers <br> Lines of code that need to change when modifying logic/UI |
 
 ### 2. Testability
-|Description | Evaluates how easy it is to test business logic in isolation. |
+| Description | Evaluates how easy it is to test business logic in isolation. |
 |-|-|
-|Sub-factors | Support for unit testing <br> Support for integration/system testing without UI <br> Availability of mocks/stubs for external dependencies |
-|Metrics     | Percentage of logic testable without UI <br> Time required to set up automated tests |
-
+| Sub-factors | Support for unit testing <br> Support for integration/system testing without UI <br> Availability of mocks/stubs for external dependencies |
+| Metrics | Percentage of logic testable without UI <br> Time required to set up automated tests |
 
 ### 3. Scalability / Extensibility
-|Description | How well the architecture handles growth in features, complexity, or team size. |
+| Description | How well the architecture handles growth in features, complexity, or team size. |
 |-|-|
-|Sub-factors | Ease of adding new modules or features <br> Ability to support multiple users or devices <br> Support for parallel development by multiple teams |
-|Metrics     | Number of new modules added without changing core <br> Time required to integrate new features |
-
+| Sub-factors | Ease of adding new modules or features <br> Ability to support multiple users or devices <br> Support for parallel development by multiple teams |
+| Metrics | Number of new modules added without changing core <br> Time required to integrate new features |
 
 ### 4. Deployment Flexibility
-|Description | Ability to deploy the system across different environments (desktop, embedded, CI/CD). |
+| Description | Ability to deploy the system across different environments (desktop, embedded, headless server/container). |
 |-|-|
-|Sub-factors | Multi-platform support <br> Ability to produce different binaries from the same core <br> Remote vs local execution capability |
-|Metrics     | Number of supported platforms <br> Ease of cross-compilation for embedded targets |
-
+| Sub-factors | Multi-platform support <br> Ability to produce different binaries from the same core <br> Remote vs local execution capability |
+| Metrics | Number of supported platforms <br> Ease of cross-compilation for embedded targets |
 
 ### 5. Performance / Efficiency
-|Description | Runtime efficiency and memory usage, critical for constrained environments. |
+| Description | Runtime performance and memory usage, critical for constrained environments. |
 |-|-|
-|Sub-factors | Execution speed <br> Memory footprint <br> Overhead from layers/abstraction |
-|Metrics     | CPU cycles for core operations <br>  Binary size for embedded targets <br>  Latency introduced by additional layers (MVC, MVP, MVVM) |
+| Sub-factors | Execution speed <br> Memory footprint <br> Overhead from layers/abstraction |
+| Metrics | CPU cycles for core operations <br> Binary size for embedded targets <br> Latency introduced by additional layers (MVC, MVP, MVVM) |
 
-
-### 6. Complexity / Learning Curve
-|Description | Measures how easy it is for developers to understand and maintain the pattern. |
+### 6. Tooling and Language Support
+| Description | How well the architecture fits the language, compiler, and development tools. |
 |-|-|
-|Sub-factors | Number of concepts to learn <br>  Code readability and maintainability <br>  Framework or tooling dependencies |
-|Metrics     | Estimated onboarding time for new developer <br>  Number of design constructs needed for implementation |
+| Sub-factors | IDE/framework support for pattern <br> Compiler/linker support for optimizations (dead code elimination, function sections) <br> Build automation support |
+| Metrics | Number of tools/frameworks supporting the pattern <br> Complexity of build scripts |
 
-
-### 7. Tooling and Language Support
-|Description | How well the architecture fits the chosen language, compiler, and development tools. |
+### 7. Reusability
+| Description | Ability to reuse business logic or UI components across projects. |
 |-|-|
-|Sub-factors | IDE/framework support for pattern <br>  Compiler/linker support for optimizations (dead code elimination, function sections) <br>  Build automation support |
-|Metrics     | Number of tools/frameworks supporting the pattern <br>  Complexity of build scripts |
+| Sub-factors | Portability across projects or products <br> Independence from specific UI or deployment platform <br> Ease of adapting components for new requirements |
+| Metrics | Percentage of code reused across projects <br> Time to adapt for a new platform or project |
 
 
-### 8. Reusability
-|Description | Ability to reuse business logic or UI components across projects. |
-|-|-|
-|Sub-factors | Portability across projects or products <br> Independence from specific UI or deployment platform <br> Ease of adapting components for new requirements |
-|Metrics     | Percentage of code reused across projects <br> Time to adapt for a new platform or project |
+# Category Priority
 
+The priority is based on how critical each criterion is to achieving the primary goal: **separating UI and business logic to enable multiple deployment targets (Desktop, headless server, Embedded).**
 
-
-# Criteria Scoring
-
-The scoring is based on how critical each criterion is to achieving the primary goal: **separating business logic to enable multiple deployment targets (Desktop, CI/CD, Embedded).**
-
-| Name | Importance | Justification (Based on Thesis Text) |
+| Name | Priority | Justification (Based on Thesis Text) |
 |-|-|-|
-| **Modularity** | **1.0** | **Fundamental Prerequisite.** The entire thesis premise is "distinctly separating business logic from user interface concerns." Without high modularity, it is impossible to create a "core testing engine (business logic) made fully independent." A score of 1.0 is assigned because this is the non-negotiable foundation for supporting the three distinct deployment environments (Desktop GUI, Headless CI, Embedded). |
-| **Testability** | **0.95** | **Critical for CI/CD Viability.** The thesis specifically calls for a "CI‑compatible command‑line or headless application." For this to run on a build server, the business logic must be testable without a UI. Furthermore, the ability to run automated tests (unit/integration) on the core logic before deployment to embedded devices is essential for reliability in an automated pipeline. |
-| **Scalability / Extensibility** | **0.6** | **Moderate Relevance.** While the thesis focuses on *deployment* diversity rather than user-load diversity, extensibility is relevant for future-proofing. The ability to "add new modules" or features to the core logic without breaking the three front-ends is a natural consequence of good separation. However, handling "multiple users" is not a stated requirement for the embedded or CI variants, lowering its score slightly compared to the others. |
-| **Deployment Flexibility** | **1.0** | **Primary Success Metric.** The thesis explicitly lists three radically different environments: a desktop application, a CI-compatible headless server app, and a lightweight microcontroller version. The ability to "produce different binaries from the same core" is the main deliverable. This criterion directly measures the success of the architectural separation against the stated goal. |
-| **Performance / Efficiency** | **0.9** | **Critical for Embedded Viability.** The microcontroller version is explicitly described as "resource-constrained," requiring "lightweight and optimized for efficiency." The thesis also discusses "Precompiled Configuration Execution" to minimize overhead. Therefore, metrics like binary size, memory footprint, and abstraction overhead are highly relevant; a pattern that adds too much overhead (e.g., heavy reflection or extensive runtime binding) would fail the embedded use case. |
-| **Complexity** | **0.7** | **Practical Implementation Constraint.** While separation is the goal, the thesis must consider the "Learning Curve" and "Maintainability." The embedded environment (C/C++ typically) often lacks the complex frameworks (like data binding in MVVM) that desktop environments (C#/Java) enjoy. If the architectural pattern introduces complexity that makes cross-compilation or debugging on the microcontroller difficult, it becomes a barrier to implementation. |
-| **Tooling** | **0.5** | **Context Dependent.** The score here reflects a balance. Tooling is vital for the embedded target (cross-compilation support, linker script control for dead code elimination) and the desktop target (IDE support). However, the architectural pattern itself is often abstract enough to be implemented in any language. While important for execution, it is slightly less of a *theoretical* evaluation criterion than the others listed, as the thesis allows for selecting the pattern *based on* toolchain constraints. |
-| **Reusability** | **0.9** | **Core Value Proposition.** The goal is to "reuse business logic" across three distinct applications. The thesis emphasizes that the core testing engine should be independent of the UI platform. High reusability ensures that the investment in developing the test configuration logic is leveraged across the Desktop GUI, the CI server, and the Microcontroller without rewriting the core algorithms. |
+| **Separation** | **1.00** | **Fundamental Prerequisite.** The entire thesis premise is distinctly separating business logic from user interface concerns. Without high Separation, it is impossible to create a core testing engine (business logic) made fully independent. A score of 1.0 is assigned because this is the non-negotiable foundation for supporting the three distinct deployment environments (Desktop GUI, Headless CI, Embedded). |
+| **Testability** | **0.95** | **Critical for CI/CD Viability.** The thesis specifically calls for a CI‑compatible command‑line or headless application. For this to run on a build server, the business logic must be testable without a UI. Furthermore, the ability to run automated tests (unit/integration) on the core logic before deployment to embedded devices is essential for reliability in an automated pipeline. |
+| **Scalability / Extensibility** | **0.60** | **Moderate Relevance.** While the thesis focuses on *deployment* diversity rather than user-load diversity, extensibility is relevant for future-proofing. The ability to add new modules or features to the core logic without breaking the three front-ends is a natural consequence of good separation. However, handling multiple users is not a stated requirement for the embedded or CI variants, lowering its score slightly compared to the others. |
+| **Deployment Flexibility** | **1.00** | **Primary Success Metric.** The thesis explicitly lists three radically different environments: a desktop application, a CI-compatible headless server app, and a lightweight microcontroller version. The ability to produce different binaries from the same core is the main deliverable. This criterion directly measures the success of the architectural separation against the stated goal. |
+| **Performance / Efficiency** | **1.00** | **Critical for Embedded Viability.** The microcontroller version is explicitly described as resource-constrained, requiring lightweight and optimized for efficiency. The thesis also discusses Precompiled Configuration Execution to minimize overhead. Therefore, metrics like binary size, memory footprint, and abstraction overhead are highly relevant; a pattern that adds too much overhead (e.g., heavy reflection or extensive runtime binding) would fail the embedded use case. |
+| **Tooling** | **0.50** | **Context Dependent.** The score here reflects a balance. Tooling is vital for the embedded target (cross-compilation support, linker script control for dead code elimination) and the desktop target (IDE support). However, the architectural pattern itself is often abstract enough to be implemented in any language. While important for execution, it is slightly less of a *theoretical* evaluation criterion than the others listed, as the thesis allows for selecting the pattern *based on* toolchain constraints. |
+| **Reusability** | **0.90** | **Core Value Proposition.** The goal is to reuse business logic across three distinct applications. The thesis emphasizes that the core testing engine should be independent of the UI platform. High reusability ensures that the investment in developing the test configuration logic is leveraged across the Desktop GUI, the CI server, and the Microcontroller without rewriting the core algorithms. |
 
 
 
@@ -133,8 +120,6 @@ Identifying 3 widely used patterns for separations and comparing them (with focu
 Then applying one of the patterns in a hand-on example.
 The bachelor should not be firm specific. it should be about the work, leaving any mention of a firm out of the title/abstract
 
-## use Static Lib:
-The business logic is developed and stored as a **static library**. One or multiple executable are then build that use this lib, such as a general purpose application for PC development and a smaller application that can run on a microprocessor and only executes a predefined test-case/test-suite
 
 ## Glossary
 | Term | Definition |
@@ -156,17 +141,92 @@ The business logic is developed and stored as a **static library**. One or multi
 
 
 
-# Static Library Structure and Linking
 
-A static library should contain many small object files because of how linking works:
-- **Archive Level**: The linker scans the static library for specific `object files` containing symbols referenced by the executable. Only those object files are pulled in-unreferenced object files are discarded.
-- **Object Level**: Once an object file is included, `its entire contents` are linked into the final binary. This is why library designers are advised to place one function per source file: it gives the linker finer granularity to avoid including unused code.
-
-There are way to control the linking and exclude unused code but it relies on the compiler used:
-- **Function Level (with optimizations)**: Even after an object file is included, unused code within it can be eliminated using `Dead Code Elimination`. Compiler flags like `-ffunction-sections` (GCC/Clang) place each function in its own section, and the linker flag `-Wl,--gc-sections` garbage-collects unused sections, discarding individual functions that are never called.
+#
 
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Judge the Onion Architecture pattern by:
+### 1. Separation
+| Description | Measures how well the pattern isolates UI from business logic. |
+|-|-|
+| Sub-factors | Degree of coupling (tight vs loose) <br> Ease of replacing one module without affecting others <br> Support for multiple UI platforms |
+| Metrics | Number of dependencies between layers <br> Lines of code that need to change when modifying logic/UI |
+
+
+Be realistic and very slightly pesimistic (dont invent problems, only if you find them in a web site, then you can lower the score).
+- show your sources. what webside did you use for what argument.
+- For every pro and contra point I NEED THE SOURCE WEBSITE.
+- give me the used sources as a complete list at the end
+- Use this style:
+
+    short explanation text, a descrption of the evaluation
+
+    **Pros:**
+    - pro point [1]
+    - pro point [2]
+
+    **Con:**
+    - con point [3]
+    - con point [4]
+
+    **Score: XX/10**
+
+    [1]: [www.xxxxxxxxxx.com](www.xxxxxxxxxx.com)
+    [2]: [www.yyyyyyyyyy.com](www.yyyyyyyyyy.com)
+    [3]: [www.zzzzzzzzzz.com](www.zzzzzzzzzz.com)
+    [4]: [www.aaaaaaaaaa.com](www.aaaaaaaaaa.com)
+
+
+
+## Onion Architecture [Source](https://www.clarity-ventures.com/articles/onion-based-software-architecture)
+Onion Architecture is closely related to Clean Architecture and organizes the system into **concentric layers centered around the domain model**, emphasizing that the **core business logic is completely isolated from infrastructure and UI concerns**.
+* **Core Idea:** The domain model sits at the center, surrounded by layers like services, infrastructure, and UI. ([Clarity Ventures][2])
+* **Dependency Rule:** All dependencies point inward toward the domain.
+* **Layers:**
+  * Domain (core logic)
+  * Application services
+  * Infrastructure (DB, APIs)
+  * Presentation (UI)
+* **Goal:** Protect the domain logic from external changes.
+
+
+
+
+
+
+
+
+# Revision Count
+
+|                      | Separ. | Testab. | Scalab. | Deploy. Flexib. | Perf. | Tooling and Lang. Supp. | Reusab. |
+|----------------------|--------|---------|---------|-----------------|-------|-------------------------|---------|
+| MVC                  |        |         |         |                 |       |                         |         |
+| MVP                  |        |         |         |                 |       |                         |         |
+| MVVM                 |        |         |         |                 |       |                         |         |
+| Hexagonal            |        |         |         |                 |       |                         |         |
+| Onion                |      1 |         |         |                 |       |                         |         |
+| Front Controller     |        |         |         |                 |       |                         |         |
+| Backend-for-Frontend |        |         |         |                 |       |                         |         |
+| Model-View-Adapter   |        |         |         |                 |       |                         |         |
+| Microkernel          |        |         |         |                 |       |                         |         |
 
