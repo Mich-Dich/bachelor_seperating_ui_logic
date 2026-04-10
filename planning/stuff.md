@@ -60,7 +60,7 @@ Please judge the patterns below for [Reusability]. Write a few sentences for eve
 
 
 
-Judge the Model-View-Adapter (MVA) Architecture pattern by Separation. ONLY focus on Separation!
+Judge the Onion Architecture Architecture pattern by Separation. ONLY focus on Separation!
 | Description | Measures how well the pattern isolates UI from business logic. |
 |-|-|
 | Sub-factors | Degree of coupling (tight vs loose) <br> Ease of replacing one module without affecting others <br> Support for multiple UI platforms |
@@ -92,35 +92,44 @@ Be realistic and very slightly pessimistic (don't invent problems, only if you f
     4: www.aaaaaaaaaa.com
 
 
-## Model-View-Adapter (MVA) [1] [2] [3] [4] [5]
+## Onion Architecture
 
-The Model-View-Adapter pattern is a strict variation of Model-View-Controller (MVC) that enforces complete decoupling between the Model and the View. Instead of the View observing the Model directly, an **Adapter** (sometimes called a **Controller** in this variant) acts as the sole intermediary. The Adapter handles all user input, translates it into Model operations, and then explicitly updates the View with data retrieved from the Model.
-
-Unlike classic MVC where the View can subscribe to Model events, MVA mandates that **the View and Model never communicate directly** – all interactions pass through the Adapter. This makes the pattern a pure implementation of the **Mediator** pattern. The Adapter holds references to both the Model and the View, and both components remain completely unaware of each other. As a result, the View can be built from generic, off‑the‑shelf widgets (e.g., buttons, lists) without any application‑specific logic, and the Model has no knowledge of how it is displayed.
+The Onion Architecture is a software architectural pattern introduced by Jeffrey Palermo in 2008 to address the problems of tight coupling and difficulty in maintaining long-lived, complex business applications. Its core principle is to place the Domain Model – the true business logic and entities – at the very center of the system. Around this core, concentric layers are built, each representing a higher level of abstraction, but crucially, dependencies always point inward. The inner layers know nothing about the outer layers; they define interfaces (ports) that the outer layers (adapters) must implement. This externalizes infrastructure concerns such as data access, logging, file I/O, and even the user interface to the outermost ring. Common layers from center to outside are: Domain Model, Domain Services, Application Services, and Infrastructure/UI. By adhering to the Dependency Inversion principle, the Onion Architecture decouples business logic from technical details, making the application easier to test, evolve, and adapt to changes in technology. However, the pattern is not a one-size-fits-all solution – it is deliberately designed for long‑lived systems with rich, complex behavior, and it would be over‑engineering for small websites or simple applications.
 
 ### Pros:
-- **Complete separation of concerns** – The Model, View, and Adapter each have well‑defined roles, improving maintainability.
-- **Model obliviousness** – The Model does not need to know about the View or Adapter, making it highly reusable across different interfaces.
-- **Increased flexibility** – Multiple views (even radically different ones) can be attached to the same Model because the Adapter coordinates all updates.
-- **Simplified debugging** – All communication flows through a single mediator (the Adapter), so the data flow is linear and easier to trace.
-- **View simplicity** – The View can be composed of generic UI components without any application‑specific logic, reducing duplication.
+- **Maintainability over time**: By isolating business rules in the core, the system remains easier to understand and modify even as it grows.
+- **Controlled coupling**: All dependencies point inward, eliminating circular references and reducing the risk that a small change will break unrelated parts.
+- **Externalisation of infrastructure**: Data access, UI, and third‑party services live in the outer rings, making it straightforward to swap out technologies (e.g., change a database or a message queue) without touching the core logic.
+- **High testability**: The inner domain and application layers can be unit‑tested in isolation because they depend only on abstractions (interfaces), not on concrete infrastructure.
+- **Long‑term scalability**: The architecture naturally supports complex business domains and evolving requirements over many years.
 
 ### Cons:
-- **Additional complexity** – For small or simple applications, the strict separation introduces unnecessary boilerplate code.
-- **Risk of “adapter bloat”** – As the application grows, the Adapter can accumulate too many responsibilities, becoming a large, hard‑to‑maintain class.
-- **More upfront design** – Requires careful architectural planning; it is not a pattern you can adopt incrementally.
-- **Performance overhead** – Every interaction must pass through the Adapter, potentially adding extra method calls and indirection.
-- **Not suitable for trivial UI** – If the View and Model are tightly coupled by nature (e.g., a simple settings dialog), MVA can feel over‑engineered.
+- **Not appropriate for small projects**: For a simple website or a short‑lived application, the overhead of setting up layers, interfaces, and dependency injection adds unnecessary complexity without tangible benefit.
+- **Initial learning curve**: Teams unfamiliar with Dependency Inversion, separation of concerns, and interface‑based design may struggle to implement the pattern correctly.
+- **Potential for interface duplication**: Each layer often defines its own interfaces (e.g., repositories, services), leading to a proliferation of contracts that must be mapped, which can feel redundant for trivial operations.
+- **Setup complexity**: Getting the project structure, dependency management (e.g., using an IoC container), and test harness right from the start requires more upfront design compared to simpler architectures like N‑tier or MVC.
 
 
 
 
 use the following links:
-- https://appmaster.io/blog/architectural-patterns-mvc-mvp-and-mvvm#model-view-presenter-mvp
-- https://www.educative.io/answers/mvc-vs-mvp-vs-mvvm
-- https://learn.microsoft.com/en-gb/training/modules/design-mvvm-viewmodel/2-what-is-mvvm
-- https://ar5iv.labs.arxiv.org/html/2504.18191
-- https://www.netguru.com/blog/mvvm-architecture
+https://www.clarity-ventures.com/articles/onion-based-software-architecture
+https://jeffreypalermo.com/2008/07/the-onion-architecture-part-1/
+https://clearmeasure.com/onion-architecture-pwp-episode-2/
+https://skillsfundingagency.github.io/das-technical-guidance/development_standards/solution-structure#solution-architecture
+https://innovaformazione.net/clean-architecture-vs-onion-architecture/
+
+
+
+
+
+
+
+
+
+
+
+Find 5 websites that have a description/pros/cons about the  Backend-for-Frontend (BFF) pattern
 
 
 
@@ -133,25 +142,42 @@ use the following links:
 
 
 
+Use the following websites and create an explanation about the BFF pattern:
+- https://duendesoftware.com/learn/the-backend-for-frontend-bff-pattern-explained-benefits-challenges-and-best-practices/
+- https://github.com/denyspoltorak/metapatterns/wiki/Backends-for-Frontends-(BFF)
+- https://aws.amazon.com/ru/blogs/mobile/backends-for-frontends-pattern/
+- https://medium.com/@g.m.hislop93/the-pros-and-cons-of-using-a-backend-for-frontend-bff-a67e2edaefab
+- https://www.techtarget.com/searchapparchitecture/tip/Using-the-BFF-pattern-to-keep-UIs-flexible-and-reliable
+
+Use this format:
+## Backend-for-Frontend (BFF)
+
+<Description, moderately detailed>
+
+### Pros:
+
+### Cons:
 
 
 
-where exactly in the sources does it say what you mentioned. Give me the exact lines that support this claim:
 
-- **Complete Decoupling of UI and Business Logic:** The View and Model have no direct knowledge of each other, preventing any unwanted coupling. This makes it easier to change one without impacting the other.
+
+
+
+
+where exactly in the sources does it say the following. Give me the exact lines that support this claim:
+
+- **Optimized client experiences** – Each BFF can tailor API responses to its specific frontend, avoiding unnecessary data transfer and reducing latency for mobile or low‑bandwidth devices.
 
 Give the full and correct link per instance
 Use the following sources if possible. If you cant find it there then look in the remaining internat.
 
 Sources:
-- https://en.wikipedia.org/w/index.php?title=Model%E2%80%93view%E2%80%93adapter&oldid=882794684
-- https://stefanoborini.com/book-modelviewcontroller/02-mvc-variations/05-variations-on-the-triad/01-model-view-adapter.html
-- https://www.bookstack.cn/read/modelviewcontroller-src/02_mvc_variations-variations_on_the_triad-10_model_view_adapter.md
-- https://handwiki.org/wiki/Model%E2%80%93view%E2%80%93adapter
-- https://power.arc.losrios.edu/~auyeunt/teaches/modules/0259/module.html
-
-
-
+- https://duendesoftware.com/learn/the-backend-for-frontend-bff-pattern-explained-benefits-challenges-and-best-practices/
+- https://github.com/denyspoltorak/metapatterns/wiki/Backends-for-Frontends-(BFF)
+- https://aws.amazon.com/ru/blogs/mobile/backends-for-frontends-pattern/
+- https://medium.com/@g.m.hislop93/the-pros-and-cons-of-using-a-backend-for-frontend-bff-a67e2edaefab
+- https://www.techtarget.com/searchapparchitecture/tip/Using-the-BFF-pattern-to-keep-UIs-flexible-and-reliable
 
 
 
