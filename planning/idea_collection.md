@@ -88,11 +88,11 @@ Both approaches represent different trade-offs between flexibility and performan
 | Sub-factors | IDE/framework support for pattern <br> Compiler/linker support for optimizations (dead code elimination, function sections) <br> Build automation support |
 | Metrics | Number of tools/frameworks supporting the pattern <br> Complexity of build scripts |
 
-### 7. Reusability
+<!-- ### 7. Reusability
 | Description | Ability to reuse business logic or UI components across projects. |
 |-|-|
 | Sub-factors | Portability across projects or products <br> Independence from specific UI or deployment platform <br> Ease of adapting components for new requirements |
-| Metrics | Percentage of code reused across projects <br> Time to adapt for a new platform or project |
+| Metrics | Percentage of code reused across projects <br> Time to adapt for a new platform or project | -->
 
 
 # Category Priority
@@ -107,7 +107,7 @@ The priority is based on how critical each criterion is to achieving the primary
 | **Deployment Flexibility** | **1.00** | **Primary Success Metric.** The thesis explicitly lists three radically different environments: a desktop application, a CI-compatible headless server app, and a lightweight microcontroller version. The ability to produce different binaries from the same core is the main deliverable. This criterion directly measures the success of the architectural separation against the stated goal. |
 | **Performance / Efficiency** | **1.00** | **Critical for Embedded Viability.** The microcontroller version is explicitly described as resource-constrained, requiring lightweight and optimized for efficiency. The thesis also discusses Precompiled Configuration Execution to minimize overhead. Therefore, metrics like binary size, memory footprint, and abstraction overhead are highly relevant; a pattern that adds too much overhead (e.g., heavy reflection or extensive runtime binding) would fail the embedded use case. |
 | **Tooling** | **0.50** | **Context Dependent.** The score here reflects a balance. Tooling is vital for the embedded target (cross-compilation support, linker script control for dead code elimination) and the desktop target (IDE support). However, the architectural pattern itself is often abstract enough to be implemented in any language. While important for execution, it is slightly less of a *theoretical* evaluation criterion than the others listed, as the thesis allows for selecting the pattern *based on* toolchain constraints. |
-| **Reusability** | **0.90** | **Core Value Proposition.** The goal is to reuse business logic across three distinct applications. The thesis emphasizes that the core testing engine should be independent of the UI platform. High reusability ensures that the investment in developing the test configuration logic is leveraged across the Desktop GUI, the CI server, and the Microcontroller without rewriting the core algorithms. |
+<!-- | **Reusability** | **0.90** | **Core Value Proposition.** The goal is to reuse business logic across three distinct applications. The thesis emphasizes that the core testing engine should be independent of the UI platform. High reusability ensures that the investment in developing the test configuration logic is leveraged across the Desktop GUI, the CI server, and the Microcontroller without rewriting the core algorithms. | -->
 
 
 
@@ -121,23 +121,7 @@ Then applying one of the patterns in a hand-on example.
 The bachelor should not be firm specific. it should be about the work, leaving any mention of a firm out of the title/abstract
 
 
-## Glossary
-| Term | Definition |
-|------|-------------|
-| **User Interface (UI)** | The part of an application that handles user interaction and presentation. In this thesis, UI is separated from business logic to allow different front‑ends (desktop, headless, embedded). |
-| **Business Logic** | The core functionality of the application, independent of any presentation layer. In this case: the test engine that manipulates test benches and communicates with devices. |
-| **Test Configuration** | A set of parameters, commands, or scripts that define a specific test case or test suite. Can be loaded dynamically (desktop/CI) or precompiled (embedded). |
-| **Static Library** | A collection of object files (`.a` on Linux/macOS, `.lib` on Windows) that is linked directly into an executable at build time. Used to package the business logic for reuse across different applications. |
-| **Dead Code Elimination (DCE)** | A compiler/linker optimization that removes functions or data that are never referenced. When combined with `-ffunction-sections` and `-Wl,--gc-sections`, it allows discarding unused code even from within an object file. |
-| **Conditional Static Linking** | The technique of including or excluding specific modules (plugins) at compile time using preprocessor directives or build‑system logic, rather than at runtime. Essential for creating a lightweight embedded variant. |
-| **Microkernel Architecture** | A pattern that separates a minimal core system from extensible modules (plugins). |
-| **Headless Application** | An application that runs without a graphical user interface, typically in a server or CI/CD environment. CI/CD‑compatible variant reads and executes test configurations without editing capabilities. |
-| **Embedded / Microcontroller Target** | A resource‑constrained environment (limited RAM, flash, CPU speed) where the test‑execution application must be lightweight. Two approaches: runtime configuration reception (flexible) or precompiled configuration (efficient). |
-| **Cross‑compilation** | The process of compiling source code on one platform (e.g., x86 desktop) to produce an executable for another platform (e.g., ARM microcontroller). Relevant for building the embedded variant from the same codebase. |
-| **Plugin** | An independent, replaceable module that extends the core system without modifying it. In a microkernel architecture, UI and optional features are implemented as plugins. |
-| **LTO (Link‑Time Optimization)** | A compiler optimization that analyses the whole program during linking, enabling inlining and cross‑module dead code elimination. Particularly useful when statically linking many small object files. |
-| **Service Provider Interface (SPI)** | A contract (interface) defined by the microkernel that plugins must implement to integrate with the core. Ensures loose coupling and testability. |
-| **CI/CD Pipeline** | Continuous Integration / Continuous Deployment – an automated build, test, and deployment process. CI/CD‑compatible application is designed to run as a step in such a pipeline. |
+
 
 
 
@@ -220,10 +204,10 @@ Onion Architecture is closely related to Clean Architecture and organizes the sy
 
 |                      | Separ. | Testab. | Scalab. | Deploy. Flexib. | Perf. | Tooling and Lang. Supp. | Reusab. |
 |----------------------|--------|---------|---------|-----------------|-------|-------------------------|---------|
-| MVC                  |        |         |         |                 |       |                         |         |
+| MVC                  |      1 |         |         |                 |       |                         |         |
 | MVP                  |        |         |         |                 |       |                         |         |
 | MVVM                 |        |         |         |                 |       |                         |         |
-| Hexagonal            |        |         |         |                 |       |                         |         |
+| Hexagonal            |      1 |         |         |                 |       |                         |         |
 | Onion                |      1 |         |         |                 |       |                         |         |
 | Front Controller     |        |         |         |                 |       |                         |         |
 | Backend-for-Frontend |        |         |         |                 |       |                         |         |
