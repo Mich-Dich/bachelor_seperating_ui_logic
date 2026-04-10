@@ -32,6 +32,19 @@ Please judge the patterns below for [Reusability]. Write a few sentences for eve
 
 
 
+# Revision Count
+
+|                      | Separa. | Scalab. | Extens. | Deploy. | Perfor. | Tooling |
+|----------------------|---------|---------|---------|---------|---------|---------|
+| MVC                  |       1 |         |         |         |         |         |
+| MVP                  |       1 |         |         |         |         |         |
+| MVVM                 |       1 |         |         |         |         |         |
+| MVA                  |         |         |         |         |         |         |
+| Hexagonal            |       1 |         |         |         |         |         |
+| Onion                |       1 |         |         |         |         |         |
+| Front Controller     |         |         |         |         |         |         |
+| Backend-for-Frontend |         |         |         |         |         |         |
+| Microkernel          |         |         |         |         |         |         |
 
 
 
@@ -41,7 +54,13 @@ Please judge the patterns below for [Reusability]. Write a few sentences for eve
 
 
 
-Judge the Model-View-Presenter (MVP) Architecture pattern by Separation. ONLY focus on Separation!
+
+
+
+
+
+
+Judge the Model-View-Adapter (MVA) Architecture pattern by Separation. ONLY focus on Separation!
 | Description | Measures how well the pattern isolates UI from business logic. |
 |-|-|
 | Sub-factors | Degree of coupling (tight vs loose) <br> Ease of replacing one module without affecting others <br> Support for multiple UI platforms |
@@ -73,68 +92,36 @@ Be realistic and very slightly pessimistic (don't invent problems, only if you f
     4: www.aaaaaaaaaa.com
 
 
+## Model-View-Adapter (MVA) [1] [2] [3] [4] [5]
 
+The Model-View-Adapter pattern is a strict variation of Model-View-Controller (MVC) that enforces complete decoupling between the Model and the View. Instead of the View observing the Model directly, an **Adapter** (sometimes called a **Controller** in this variant) acts as the sole intermediary. The Adapter handles all user input, translates it into Model operations, and then explicitly updates the View with data retrieved from the Model.
 
-## Model-View-Presenter (MVP) [1], [2], [3], [4], [5], [6]
-
-MVP is an architectural pattern that addresses some of the drawbacks of the traditional MVC approach. It was first introduced in the 1990s as a specialization of MVC, focusing on improving the separation of concerns between the view and the model. MVP divides the application's components into three main parts:
-
-- Model: Represents the data and business logic of the application, similar to the model in MVC. It is responsible for processing, storing, and managing data and implementing any necessary business rules. The model does not communicate directly with the view or presenter.
-- View: Represents the user interface and presentation layer of the application. Like the view in MVC, its primary function is to display data fetched from the model. However, in MVP, the view is more passive and relies on the presenter for updates and user input handling. The view communicates only with the presenter and not with the model.
-- Presenter: Acts as a bridge between the model and the view, taking on some of the controller's responsibilities in MVC. The presenter fetches data from the model and updates the view, ensuring the correct data presentation. Unlike the controller, the presenter also handles user input directly from the view and facilitates two-way communication between the view and the model.
-
-The main difference between MVC and MVP lies in the controller and presenter's roles. In MVP, the presenter becomes more involved in user interactions and the flow of data between the view and the model, leaving the view as a passive component. This separation of concerns allows for better testability and modularity, as each component can be isolated and tested independently.
+Unlike classic MVC where the View can subscribe to Model events, MVA mandates that **the View and Model never communicate directly** – all interactions pass through the Adapter. This makes the pattern a pure implementation of the **Mediator** pattern. The Adapter holds references to both the Model and the View, and both components remain completely unaware of each other. As a result, the View can be built from generic, off‑the‑shelf widgets (e.g., buttons, lists) without any application‑specific logic, and the Model has no knowledge of how it is displayed.
 
 ### Pros:
-Improved separation of concerns between view and model.
-The presenter facilitates better testability and modularity.
-Each component can be modified or replaced without affecting others.
-Better suited for applications with complex state or interaction requirements.
+- **Complete separation of concerns** – The Model, View, and Adapter each have well‑defined roles, improving maintainability.
+- **Model obliviousness** – The Model does not need to know about the View or Adapter, making it highly reusable across different interfaces.
+- **Increased flexibility** – Multiple views (even radically different ones) can be attached to the same Model because the Adapter coordinates all updates.
+- **Simplified debugging** – All communication flows through a single mediator (the Adapter), so the data flow is linear and easier to trace.
+- **View simplicity** – The View can be composed of generic UI components without any application‑specific logic, reducing duplication.
 
 ### Cons:
-Increased complexity compared to traditional MVC, due to the presenter's added responsibilities.
-Can lead to a larger codebase and the need for more boilerplate code.
-Potential for communication overhead between the components.
+- **Additional complexity** – For small or simple applications, the strict separation introduces unnecessary boilerplate code.
+- **Risk of “adapter bloat”** – As the application grows, the Adapter can accumulate too many responsibilities, becoming a large, hard‑to‑maintain class.
+- **More upfront design** – Requires careful architectural planning; it is not a pattern you can adopt incrementally.
+- **Performance overhead** – Every interaction must pass through the Adapter, potentially adding extra method calls and indirection.
+- **Not suitable for trivial UI** – If the View and Model are tightly coupled by nature (e.g., a simple settings dialog), MVA can feel over‑engineered.
 
-![MVP](../images/presenter.png)
 
 
 
-## Architectural Patterns: MVC, MVP, and MVVM Explained
-- [1]: https://appmaster.io/blog/architectural-patterns-mvc-mvp-and-mvvm#model-view-presenter-mvp
-| Link | https://appmaster.io/blog/architectural-patterns-mvc-mvp-and-mvvm#model-view-presenter-mvp |
-|-|-|
-| Retrieved | 2026-04-09 |
+use the following links:
+- https://appmaster.io/blog/architectural-patterns-mvc-mvp-and-mvvm#model-view-presenter-mvp
+- https://www.educative.io/answers/mvc-vs-mvp-vs-mvvm
+- https://learn.microsoft.com/en-gb/training/modules/design-mvvm-viewmodel/2-what-is-mvvm
+- https://ar5iv.labs.arxiv.org/html/2504.18191
+- https://www.netguru.com/blog/mvvm-architecture
 
-## Android Architecture with MVP or MVVM - Tutorial
-- [2]: https://www.vogella.com/tutorials/AndroidArchitecture/article.html
-| Link | https://www.vogella.com/tutorials/AndroidArchitecture/article.html |
-|-|-|
-| Retrieved | 2026-04-09 |
-
-## MVP-Architektur – Model-View-Presenter erklärt: Struktur, Vorteile und Einsatzbereiche
-- [3]: https://www.it-schulungen.com/wir-ueber-uns/wissensblog/mvp-architektur-model-view-presenter-erklaert-struktur-vorteile-und-einsatzbereiche.html
-| Link | https://www.it-schulungen.com/wir-ueber-uns/wissensblog/mvp-architektur-model-view-presenter-erklaert-struktur-vorteile-und-einsatzbereiche.html |
-|-|-|
-| Retrieved | 2026-04-09 |
-
-## Difference Between MVC and MVP Patterns
-- [4]: https://www.baeldung.com/mvc-vs-mvp-pattern
-| Link | https://www.baeldung.com/mvc-vs-mvp-pattern |
-|-|-|
-| Retrieved | 2026-04-09 |
-
-## MVP Architecture
-- [5]: https://www.notion.so/essentialbooks/MVP-Architecture-f2c2f7bba0a042dca350f9777169026d
-| Link | https://www.notion.so/essentialbooks/MVP-Architecture-f2c2f7bba0a042dca350f9777169026d |
-|-|-|
-| Retrieved | 2026-04-09 |
-
-## MVC vs MVP vs MVVM
-- [6]: https://www.educative.io/answers/mvc-vs-mvp-vs-mvvm
-| Link | https://www.educative.io/answers/mvc-vs-mvp-vs-mvvm |
-|-|-|
-| Retrieved | 2026-04-09 |
 
 
 
@@ -151,9 +138,20 @@ Potential for communication overhead between the components.
 
 where exactly in the sources does it say what you mentioned. Give me the exact lines that support this claim:
 
-- **Excellent Model isolation**: The Model is completely independent of the UI, containing only business logic and data, which enforces a clean separation from the presentation layer.
+- **Complete Decoupling of UI and Business Logic:** The View and Model have no direct knowledge of each other, preventing any unwanted coupling. This makes it easier to change one without impacting the other.
 
 Give the full and correct link per instance
+Use the following sources if possible. If you cant find it there then look in the remaining internat.
+
+Sources:
+- https://en.wikipedia.org/w/index.php?title=Model%E2%80%93view%E2%80%93adapter&oldid=882794684
+- https://stefanoborini.com/book-modelviewcontroller/02-mvc-variations/05-variations-on-the-triad/01-model-view-adapter.html
+- https://www.bookstack.cn/read/modelviewcontroller-src/02_mvc_variations-variations_on_the_triad-10_model_view_adapter.md
+- https://handwiki.org/wiki/Model%E2%80%93view%E2%80%93adapter
+- https://power.arc.losrios.edu/~auyeunt/teaches/modules/0259/module.html
+
+
+
 
 
 
@@ -164,7 +162,7 @@ Give the full and correct link per instance
 - [X]: www.XXXXXXXXX.com
 | Link |  |
 |-|-|
-| Retrieved | 2026-04-09 |
-| Quote for [] | "" |
+| Retrieved | 2026-04-10 |
+| Quote for [scoring/separation/MVP/pro/] | "" |
 
 

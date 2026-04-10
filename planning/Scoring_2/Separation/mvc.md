@@ -12,7 +12,10 @@ MVC achieves a fundamental separation between presentation and business logic, b
 - **Controller "Bloat" and Logic Leakage**: In practice, Controllers frequently accumulate business logic that should reside in the Model. This "controller bloat" violates separation of concerns, making the code harder to test, reuse, and maintain as the Controller becomes a "God Object". [4]
 - **Reduced Reusability**: The tight coupling between the View and Controller means they are rarely reused independently. A View is unlikely to be used without its specific Controller, limiting the pattern's flexibility and modularity. [3]
 
-**Score: 6/10**
+**Score: 5/10**
+
+**Reasoning:**
+MVC separates the Model from the View/Controller pair reasonably well, and it supports multiple views of the same model. However, the tight coupling between View and Controller (often they change together) and the frequent leakage of business logic into the Controller (“controller bloat”) significantly weaken the isolation of UI from business logic. Compared to MVP, MVC provides poorer separation because the Controller is less clearly distinct from the View and often ends up mixing presentation logic with domain rules, making testing and replacement harder.
 
 
 

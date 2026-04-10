@@ -17,6 +17,9 @@ Hexagonal Architecture achieves **strong theoretical separation** between UI and
 
 **Score: 8/10**
 
+**Reasoning:**
+Hexagonal Architecture (Ports & Adapters) achieves an excellent separation of UI from business logic, comparable to Onion Architecture. The use of ports (interfaces) and adapters means the UI depends only on abstractions, not on concrete business logic. This allows easy replacement of UIs, multi-platform support, and high testability. The listed cons — shared UI model, potential tight coupling if ports are poorly designed, domain logic leak risk, and maintenance overhead — are primarily implementation or discipline issues rather than structural flaws in the pattern itself. Hexagonal’s separation is comparable to Onion’s, but it is more susceptible to implementation and discipline-related issues.
+
 
 
 

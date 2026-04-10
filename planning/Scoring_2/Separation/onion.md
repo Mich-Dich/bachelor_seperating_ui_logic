@@ -13,6 +13,9 @@ The Onion Architecture is designed to achieve a strong separation between UI and
 
 **Score: 9/10**
 
+**Reasoning:**
+Onion Architecture achieves excellent separation of UI from business logic through its core principle of dependency inversion — the UI depends on abstractions defined in the inner layers, never directly on concrete business logic. This allows the UI to be replaced or multiplied across platforms with no changes to the domain core. Compared to MVP where View-Presenter coupling limits modularity, Onion eliminates that tight coupling. The only drawback noted is the *potential* for dependency violations in practice (e.g., outer-layer annotations leaking into domain entities), which is more of an implementation risk than a structural flaw.
+
 
 
 

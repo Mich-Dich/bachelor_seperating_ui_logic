@@ -6,23 +6,23 @@ from pathlib import Path
 
 # ---------- Data ----------
 categories = [
-    "Separation", "Testability", "Scalability",
+    "Separation", "Scalability", "Extensibility",
     "Deployment", "Performance", "Tooling"
 ]
 
 scores = {
-    "MVC":                      [  7,  5,  6,  5,  8,  8],
-    "MVP":                      [  8,  8,  7,  7,  7,  7],
-    "MVVM":                     [  9,  9,  8,  9,  6,  4],
-    "Hexagonal Architecture":   [10, 10, 10, 10,  5,  9],
-    "Onion Architecture":       [10, 10, 10, 10,  5,  7],
-    "Front Controller":         [  5,  3,  4,  4,  7,  6],
-    "Backend-for-Frontend":     [  9,  8,  9,  8,  7,  7],
-    "Model-View-Adapter":       [  7,  6,  6,  6,  7,  6],
-    "Microkernel Architecture": [  9,  8,  9, 10,  9,  8]
+    "MVC":                      [  7,  5,  0,  5,  8,  8],
+    "MVP":                      [  8,  8,  0,  7,  7,  7],
+    "MVVM":                     [  9,  9,  0,  9,  6,  4],
+    "MVA":                      [  7,  6,  0,  6,  7,  6],
+    "Hexagonal":                [ 10, 10,  0,  8,  5,  9],
+    "Onion":                    [ 10, 10,  0,  9,  5,  7],
+    "Front Controller":         [  5,  3,  0,  4,  7,  6],
+    "Backend-for-Frontend":     [  9,  8,  0,  8,  7,  7],
+    "Microkernel":              [  9,  8,  0, 10, 10,  8]
 }
 
-score_weight = [1.00, 0.95, 0.60, 1.0, 1.00, 0.50]
+score_weight = [1.00, 0.50, 0.50, 1.0, 1.00, 0.25]
 N = len(categories)
 
 # Compute weighted scores and totals
