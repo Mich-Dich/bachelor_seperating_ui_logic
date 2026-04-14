@@ -4,15 +4,15 @@
 
 |                      | Separa. | Scalab. | Extens. | Deploy. | Perfor. | Tooling |
 |----------------------|---------|---------|---------|---------|---------|---------|
-| MVC                  |       1 |         |         |         |         |         |
-| MVP                  |       1 |         |         |         |         |         |
-| MVVM                 |       1 |         |         |         |         |         |
-| MVA                  |       1 |         |         |         |         |         |
-| Hexagonal            |       1 |         |         |         |         |         |
-| Onion                |       1 |         |         |         |         |         |
-| Front Controller     |       1 |         |         |         |         |         |
-| Backend-for-Frontend |       1 |         |         |         |         |         |
-| Microkernel          |       1 |         |         |         |         |         |
+| MVC                  |       1 |       1 |       1 |         |         |         |
+| MVP                  |         |         |         |         |         |         |
+| MVVM                 |         |         |         |         |         |         |
+| MVA                  |         |         |         |         |         |         |
+| Hexagonal            |         |         |         |         |         |         |
+| Onion                |         |         |         |         |         |         |
+| Front Controller     |         |         |         |         |         |         |
+| Backend-for-Frontend |         |         |         |         |         |         |
+| Microkernel          |         |         |         |         |         |         |
 
 
 
@@ -21,68 +21,58 @@
 
 
 
-Judge Model-View-Controller Architecture pattern by Scalability. ONLY focus on Scalability!
-| Description | How well the architecture handles growth in features, complexity, or team size. |
+Judge Model-View-Controller Architecture pattern by Deployment Flexibility. ONLY focus on Deployment Flexibility!
+| Description | Ability to deploy the system across different environments (desktop, embedded, headless server/container). |
 |-|-|
-| Sub-factors | Ease of adding new modules or features <br> Ability to support multiple users or devices <br> Support for parallel development by multiple teams |
-| Metrics | Number of new modules added without changing core <br> Time required to integrate new features |
-
+| Sub-factors | Multi-platform support <br> Ability to produce different binaries from the same core <br> Remote vs local execution capability |
+| Metrics | Number of supported platforms <br> Ease of cross-compilation for embedded targets |
 
 Be realistic and very slightly pessimistic (don't invent problems, only if you find them in a web site, then you can lower the score).
 - find positive sources and negative sources that write about the negative points
 - show your sources. what website did you use for what argument.
 - For every pro and contra point I NEED THE SOURCE WEBSITE.
+- Use natural and scientific language (this is for a bachelor thesis, I want a scientific tone)
 - give me the used sources as a complete list at the end
+- Every point needs to be supported by the provided sources
+- do not quote directly, rewrite it
 - Use this style:
 
-    short explanation text, a description of the evaluation
-
     **Pros:**
-    - **title**: pro point [1]
-    - **title**: pro point [2]
+    - **title**: pro point
+    - **title**: pro point
 
     **Cons:**
-    - **title**: con point [3]
-    - **title**: con point [4]
+    - **title**: con point
+    - **title**: con point
 
-    **Score: XX/10**
+## Model-View-Controller (MVC)
 
-    1: www.xxxxxxxxxx.com
-    2: www.yyyyyyyyyy.com
-    3: www.zzzzzzzzzz.com
-    4: www.aaaaaaaaaa.com
+MVC is one of the software industry's most widely known and adopted architectural patterns. It was first introduced in the late 1970s by Trygve Reenskaug, a Norwegian computer scientist, and has since become a staple in application architecture. The pattern facilitates the separation of concerns by dividing the application into three main components:
 
+- Model: Represents the data and business logic of the application. It is responsible for processing, storing, and managing data and implementing any necessary business rules. The model is independent of the user interface and does not directly communicate with the view or controller.
+- View: Represents the application's user interface (UI) and presentation layer. The view's primary function is to display the data fetched from the model. It does not directly access the model but instead receives updates through the controller. Views can have multiple visual representations of the same data, enabling greater flexibility and adaptability.
+- Controller: Acts as the intermediary between the model and the view. The controller receives user input from the view, processes it, and updates the model. Once the model is updated, it notifies the controller, which then refreshes the view with new data. The controller's primary responsibility is to manage application flow and keep the model and view in sync. MVC architecture promotes loosely coupled components, improving application maintainability and testing.
 
-## Model-View-Presenter (MVP)
-
-MVP is an architectural pattern that addresses some of the drawbacks of the traditional MVC approach. It was first introduced in the 1990s as a specialization of MVC, focusing on improving the separation of concerns between the view and the model. MVP divides the application's components into three main parts:
-
-- Model: Represents the data and business logic of the application, similar to the model in MVC. It is responsible for processing, storing, and managing data and implementing any necessary business rules. The model does not communicate directly with the view or presenter.
-- View: Represents the user interface and presentation layer of the application. Like the view in MVC, its primary function is to display data fetched from the model. However, in MVP, the view is more passive and relies on the presenter for updates and user input handling. The view communicates only with the presenter and not with the model.
-- Presenter: Acts as a bridge between the model and the view, taking on some of the controller's responsibilities in MVC. The presenter fetches data from the model and updates the view, ensuring the correct data presentation. Unlike the controller, the presenter also handles user input directly from the view and facilitates two-way communication between the view and the model.
-
-The main difference between MVC and MVP lies in the controller and presenter's roles. In MVP, the presenter becomes more involved in user interactions and the flow of data between the view and the model, leaving the view as a passive component. This separation of concerns allows for better testability and modularity, as each component can be isolated and tested independently.
+Since the model, view, and controller are independent, each component can be modified or replaced without affecting others. This separation of concerns also promotes code reuse and modular development, as components can be easily rearranged and combined to create new functionality. In an MVC application, communication between components primarily follows the observer pattern. The view registers with the controller as an observer, while the model registers with the controller as a subject. When the model changes, it notifies the controller, which then updates the view accordingly.
 
 ### Pros:
-Improved separation of concerns between view and model.
-The presenter facilitates better testability and modularity.
-Each component can be modified or replaced without affecting others.
-Better suited for applications with complex state or interaction requirements.
+Separation of concerns improves code maintainability and reusability.
+Loose coupling between components allows easy modification and replacement.
+Supports multiple visual representations of the same data.
+Promotes modular development and code reuse.
 
 ### Cons:
-Increased complexity compared to traditional MVC, due to the presenter's added responsibilities.
-Can lead to a larger codebase and the need for more boilerplate code.
-Potential for communication overhead between the components.
+The controller can become a bottleneck for complex applications with many user interactions.
+Can be difficult to implement for applications with complicated state or interaction requirements.
 
 
 
-use the following links:
-- https://appmaster.io/blog/architectural-patterns-mvc-mvp-and-mvvm#model-view-presenter-mvp
-- https://www.vogella.com/tutorials/AndroidArchitecture/article.html
-- https://www.it-schulungen.com/wir-ueber-uns/wissensblog/mvp-architektur-model-view-presenter-erklaert-struktur-vorteile-und-einsatzbereiche.html
-- https://www.baeldung.com/mvc-vs-mvp-pattern
-- https://www.notion.so/essentialbooks/MVP-Architecture-f2c2f7bba0a042dca350f9777169026d
+USE **ONLY** THE FOLLOWING SOURCES:
 - https://www.educative.io/answers/mvc-vs-mvp-vs-mvvm
+- https://www.appventurez.com/blog/difference-between-mvc-mvp-and-mvvm-architecture
+- https://stackoverflow.blog/2023/05/17/keep-em-separated-get-better-maintainability-in-web-projects-using-the-model-view-controller-pattern/
+- https://appmaster.io/blog/architectural-patterns-mvc-mvp-and-mvvm
+- https://appmaster.io/blog/architectural-patterns-mvc-mvp-and-mvvm
 
 
 
@@ -130,47 +120,17 @@ Use this format:
 
 
 
+Check if the sources below support the following claims or if they disagree. Provide a quote what sentence you use to say if it supports or disagrees:
 
-where exactly in the sources does it support the following. Give me the exact lines that support this claim (don't need the exact wording, just the meaning):
-
-- **Feature Modularity**: MVP's separation of concerns makes the code more modular. Each component (Model, View, Presenter) can be modified or replaced without affecting others, which eases the addition of new modules. You can extend a feature by adding a new View, a corresponding Presenter, and reusing the Model.
+- **Clear Separation of Concerns**: The MVC pattern is lauded for its ability to partition an application into three distinct layers—Model, View, and Controller—each with a specific responsibility. This architectural decision isolates the data and business logic (Model) from the user interface (View), which simplifies code management and improves overall maintainability. The pattern ensures that modifications in one layer, such as the UI, have a minimal impact on the other layers, promoting a more robust and adaptable codebase.
+- **Loose Coupling and Component Independence**: A direct consequence of this separation is the loose coupling between the core components. Since the Model, View, and Controller are designed to be independent, each can be modified, replaced, or even redeveloped without causing cascading effects across the entire application. This independence is further reinforced by the architectural rule that Models should not hold references to or directly call Controllers or Views, ensuring a strict boundary.
+- **Support for Multiple Visual Representations**: The separation between the Model's data and the View's presentation logic enables a single data source to be displayed in various formats simultaneously. The architecture can support different user interfaces—for instance, a web page, a mobile app screen, and a data serialization format like JSON—all representing the same underlying data without necessitating changes to the business logic.
 
 Give the full and correct link per instance
-Use the following sources if possible. If you cant find it there then look in the remaining internat.
 
-Sources:
-- https://appmaster.io/blog/architectural-patterns-mvc-mvp-and-mvvm#model-view-presenter-mvp
-- https://www.vogella.com/tutorials/AndroidArchitecture/article.html
-- https://www.it-schulungen.com/wir-ueber-uns/wissensblog/mvp-architektur-model-view-presenter-erklaert-struktur-vorteile-und-einsatzbereiche.html
-- https://www.baeldung.com/mvc-vs-mvp-pattern
-- https://www.notion.so/essentialbooks/MVP-Architecture-f2c2f7bba0a042dca350f9777169026d
+USE **ONLY** THE FOLLOWING SOURCES:
 - https://www.educative.io/answers/mvc-vs-mvp-vs-mvvm
-
-
-
-
-
-
-
-
-
-
-
-## XXXXXXX
-- [X]: www.XXXXXXXXX.com
-| Link |  |
-|-|-|
-| Retrieved | 2026-04-13 |
-| Quote for [scoring/scalability/BFF/pro/] | "" |
-
-
-
-
-
-
-
-
-
-For reference:
-C:\uni\bachelor_seperating_ui_logic\code\refs.bib
-C:\uni\bachelor_seperating_ui_logic\planning\pattern\mvc.md
+- https://www.appventurez.com/blog/difference-between-mvc-mvp-and-mvvm-architecture
+- https://stackoverflow.blog/2023/05/17/keep-em-separated-get-better-maintainability-in-web-projects-using-the-model-view-controller-pattern/
+- https://appmaster.io/blog/architectural-patterns-mvc-mvp-and-mvvm
+- https://appmaster.io/blog/architectural-patterns-mvc-mvp-and-mvvm

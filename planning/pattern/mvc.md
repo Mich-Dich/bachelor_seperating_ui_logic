@@ -2,7 +2,7 @@
 bibliography: code/refs.bib
 ---
 
-## Model-View-Controller (MVC) [@team2023architec] [@stackoverflowblog2023keep] [@educativeionodatemvc] [@mehrotranodateundersta]
+## Model-View-Controller (MVC) [@team2023architec] [@stackoverflowblog2023keep] [@educativeionodatemvc] [@mehrotranodateundersta] [@chowdhurynodatepros]
 
 MVC is one of the software industry's most widely known and adopted architectural patterns. It was first introduced in the late 1970s by Trygve Reenskaug, a Norwegian computer scientist, and has since become a staple in application architecture. The pattern facilitates the separation of concerns by dividing the application into three main components:
 

@@ -8,16 +8,16 @@
 | Metrics | Number of dependencies between layers <br> Lines of code that need to change when modifying logic/UI |
 
 ## 2. Scalability
-| Description | How well the architecture handles growth in features, complexity, or team size. |
+| Description | How well the architecture handles growth in features, complexity. |
 |-|-|
-| Sub-factors | Ease of adding new modules or features <br> Ability to support multiple users or devices <br> Support for parallel development by multiple teams |
+| Sub-factors | Ease of adding new modules or features <br> Ability to support multiple users or devices |
 | Metrics | Number of new modules added without changing core <br> Time required to integrate new features |
 
 ## 3. Extensibility
 | Description | How well the architecture accommodates changes in team size (e.g., scaling from a single developer to multiple parallel teams) and onboarding time of new members. |
 |-|-|
-| **Sub-factors** | Degree of modularity for independent task assignment<br>Learning curve for new developers<br>Support for concurrent development on different features without merge conflicts<br>Ability to split the system into sub‑teams working on isolated components |
-| **Metrics** | Number of independent modules / components <br> Average time (or lines of code) a new developer needs to understand before making a safe change <br> Number of team members that can work in parallel on different modules without coordination overhead |
+| Sub-factors | Degree of modularity for independent task assignment<br>Learning curve for new developers<br>Support for concurrent development on different features without merge conflicts<br>Ability to split the system into sub‑teams working on isolated components |
+| Metrics | Number of independent modules / components <br> Average time (or lines of code) a new developer needs to understand before making a safe change <br> Number of team members that can work in parallel on different modules without coordination overhead |
 
 ## 4. Deployment Flexibility
 | Description | Ability to deploy the system across different environments (desktop, embedded, headless server/container). |
