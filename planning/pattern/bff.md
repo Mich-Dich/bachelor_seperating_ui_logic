@@ -1,5 +1,5 @@
 
-## Backend-for-Frontend (BFF)
+## Backend-for-Frontend (BFF) [1] [2] [3] [4] [5]
 
 The Backend-for-Frontend (BFF) pattern is an architectural approach where a dedicated backend service is created for each specific user interface or client type (e.g., mobile app, desktop web, smart TV, or voice assistant). Instead of having a single, general‑purpose API that tries to serve all clients equally, a BFF sits between the frontend and the underlying domain services. Its job is to understand the unique requirements of its paired client – such as screen size, network bandwidth, input methods, and usage patterns – and to aggregate, transform, or filter data accordingly. The BFF handles client‑specific logic, security (e.g., token storage and renewal), error handling, and sometimes caching. It acts as an adapter that translates coarse‑grained backend responses into fine‑tuned payloads that the frontend can consume directly, thereby reducing over‑fetching, under‑fetching, and the number of round trips. This pattern is especially useful when different clients evolve independently, have different performance needs, or are maintained by separate teams.
 
@@ -28,42 +28,32 @@ The Backend-for-Frontend (BFF) pattern is an architectural approach where a dedi
 
 
 
-
-
-
-
-
 ## The Backend for Frontend (BFF) Pattern Explained: Benefits, Challenges, and Best Practices
-- [X]: https://duendesoftware.com/learn/the-backend-for-frontend-bff-pattern-explained-benefits-challenges-and-best-practices/
+- [1]: https://duendesoftware.com/learn/the-backend-for-frontend-bff-pattern-explained-benefits-challenges-and-best-practices/
 | Link | https://duendesoftware.com/learn/the-backend-for-frontend-bff-pattern-explained-benefits-challenges-and-best-practices/ |
 |-|-|
 | Retrieved | 2026-04-10 |
-| Quote for [scoring/separation/BFF/pro/] | "" |
 
 ## denyspoltorak / metapatterns - Backends for Frontends (BFF)
-- [X]: https://github.com/denyspoltorak/metapatterns/wiki/Backends-for-Frontends-(BFF)
+- [2]: https://github.com/denyspoltorak/metapatterns/wiki/Backends-for-Frontends-(BFF)
 | Link | https://github.com/denyspoltorak/metapatterns/wiki/Backends-for-Frontends-(BFF) |
 |-|-|
 | Retrieved | 2026-04-10 |
-| Quote for [scoring/separation/BFF/pro/] | "" |
 
 ## Backends for Frontends Pattern
-- [X]: https://aws.amazon.com/ru/blogs/mobile/backends-for-frontends-pattern/
+- [3]: https://aws.amazon.com/ru/blogs/mobile/backends-for-frontends-pattern/
 | Link | https://aws.amazon.com/ru/blogs/mobile/backends-for-frontends-pattern/ |
 |-|-|
 | Retrieved | 2026-04-10 |
-| Quote for [scoring/separation/BFF/pro/] | "" |
 
 ## The Pros and Cons of Using a Backend-for-Frontend (BFF)
-- [X]: https://medium.com/@g.m.hislop93/the-pros-and-cons-of-using-a-backend-for-frontend-bff-a67e2edaefab
+- [4]: https://medium.com/@g.m.hislop93/the-pros-and-cons-of-using-a-backend-for-frontend-bff-a67e2edaefab
 | Link | https://medium.com/@g.m.hislop93/the-pros-and-cons-of-using-a-backend-for-frontend-bff-a67e2edaefab |
 |-|-|
 | Retrieved | 2026-04-10 |
-| Quote for [scoring/separation/BFF/pro/] | "" |
 
 ## Using the BFF pattern to keep UIs flexible and reliable
-- [X]: https://www.techtarget.com/searchapparchitecture/tip/Using-the-BFF-pattern-to-keep-UIs-flexible-and-reliable
+- [5]: https://www.techtarget.com/searchapparchitecture/tip/Using-the-BFF-pattern-to-keep-UIs-flexible-and-reliable
 | Link | https://www.techtarget.com/searchapparchitecture/tip/Using-the-BFF-pattern-to-keep-UIs-flexible-and-reliable |
 |-|-|
 | Retrieved | 2026-04-10 |
-| Quote for [scoring/separation/BFF/pro/] | "" |

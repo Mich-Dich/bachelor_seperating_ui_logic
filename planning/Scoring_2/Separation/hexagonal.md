@@ -1,85 +1,60 @@
 
 # Hexagonal Architecture (Ports and Adapters)
 
-Hexagonal Architecture achieves **strong theoretical separation** between UI and business logic through its ports-and-adapters model. In practice, however, the separation is not absolute, and some issues temper its perfect score.
+The Hexagonal Architecture pattern demonstrates a strong commitment to separation of concerns, but it is not without practical compromises. Its core strength lies in fully insulating the business logic from the UI and other external systems. However, this separation comes at a cost, introducing extra layers and complexity that can make development and debugging more difficult.
 
 **Pros:**
-- **Loose coupling through ports:** Components are loosely coupled via ports and adapters, avoiding the tight coupling typical of traditional layered architectures. [1] [2]
-- **UI independence:** The business logic has no dependencies on UIs, making it possible to change the technology stack over time with limited or no impact on business logic. [3]
-- **Multiple UI support:** Multiple UI implementations (e.g., website, native apps, CLI, test scripts) can share the same core business logic without modification. [4]
-- **Testability:** Isolating UI from logic allows unit testing of business logic using in-memory adapter stubs and mocks without requiring a real UI or external systems. [5]
+- **High Degree of Isolation**: The pattern places the UI in the outer "adapter" layer, completely separate from the core business logic. The core remains "oblivious" to the UI, as all dependencies point inward toward the domain. This clear boundary effectively prevents business rules from leaking into the presentation layer. [1]
+- **Loose Coupling**: By abstracting the UI behind a port (interface), the architecture achieves loose coupling between the UI and the application core. This means a change to a UI framework or a new UI requirement rarely impacts the business logic. [2]
+- **Excellent Replaceability**: The pattern excels at allowing a UI to be swapped out without affecting the core. An HTTP adapter can be replaced with a CLI or a desktop GUI adapter without modifying the business logic, which remains entirely independent. The system is designed so you can "replace it without disturbing its entity". [1]
+- **Strong Multi-Platform Support**: The architecture is inherently cross-platform. The core, free from any platform-specific dependencies, can be used by multiple types of UIs (web, mobile, desktop, CLI, etc.) simultaneously or interchangeably. This design enables "your system to be used in different environments and roles". [3]
 
 **Cons:**
-- **Shared UI model across adapters:** Even when several UIs exist, the core typically contains a single UI model that all adapters must share, which can be problematic when different UI implementations have different data or filtering needs. [6]
-- **Potential for tight coupling:** If ports are not designed with technology-agnostic abstractions, the intended loose coupling can degrade into a tighter coupling than anticipated. [7]
-- **Domain logic leak risk:** Business logic can still seep into UI adapters if discipline is not maintained, partially defeating the separation goal. [8]
-- **Additional maintenance overhead:** The extra adapter code required to maintain the separation is justified only when the application genuinely needs multiple input sources or technology replacements; otherwise, it becomes unnecessary maintenance overhead. [1]
+- **Complexity Overhead**: The added layers of ports and adapters, while beneficial, introduce significant code and configuration overhead, which can be confusing to implement and maintain. [2]
+- **Learning Curve**: The pattern’s flow of control is not always obvious. It can be "hard to understand and debug adapters," and the structure is "not always obvious what we should consider an adapter". [4]
+- **Performance Impact**: The extra layer of indirection can lead to "suboptimal performance," as adapters may slow down communication. [3]
+- **Risk of Over-Engineering**: For simple applications, the pattern can be overkill. The high degree of separation is unnecessary when simplicity would suffice, leading to wasted development time. [2]
+- **Complex Setup and Testing**: The numerous adapters required to connect different parts of the system increase developmental overhead. Testing can become "complex and intricate due to multiple variations required for each adapter's test". [1]
 
 **Score: 8/10**
 
 **Reasoning:**
-Hexagonal Architecture (Ports & Adapters) achieves an excellent separation of UI from business logic, comparable to Onion Architecture. The use of ports (interfaces) and adapters means the UI depends only on abstractions, not on concrete business logic. This allows easy replacement of UIs, multi-platform support, and high testability. The listed cons — shared UI model, potential tight coupling if ports are poorly designed, domain logic leak risk, and maintenance overhead — are primarily implementation or discipline issues rather than structural flaws in the pattern itself. Hexagonal’s separation is comparable to Onion’s, but it is more susceptible to implementation and discipline-related issues.
+The Hexagonal Architecture pattern is specifically designed to create a strong separation between the UI (presentation) and business logic. It scores highly on all the defined sub-factors, offering loose coupling, excellent replaceability, and strong support for multiple UI platforms. However, a perfect score is not awarded due to the realistic and slightly pessimistic assessment of its drawbacks. The pattern's benefits come at the cost of added complexity, a steeper learning curve, and the risk of over-engineering, which can negate the value of its separation in simpler projects.
 
 
 
 
-
-## Hexagonal architecture pattern
-- [1]: https://docs.aws.amazon.com/prescriptive-guidance/latest/cloud-design-patterns/hexagonal-architecture.html#hexagonal-architecture-intent
-| Link | https://docs.aws.amazon.com/prescriptive-guidance/latest/cloud-design-patterns/hexagonal-architecture.html#hexagonal-architecture-intent |
-|-|-|
-| Retrieved | 2026-04-08 |
-| Quote for [scoring/separation/Hexagonal/pro/Loose coupling through ports] | "It aims to create loosely coupled architectures where application components can be tested independently, with no dependencies on data stores or user interfaces (UIs). This pattern helps prevent technology lock-in of data stores and UIs. This makes it easier to change the technology stack over time, with limited or no impact to business logic. In this loosely coupled architecture, the application communicates with external components over interfaces called ports, and uses adapters to translate the technical exchanges with these components." |
-| Quote for [scoring/separation/Hexagonal/pro/UI independence] | "This pattern helps prevent technology lock-in of data stores and UIs. This makes it easier to change the technology stack over time, with limited or no impact to business logic." |
-| Quote for [scoring/separation/Hexagonal/pro/Multiple UI support] | "Multiple types of clients can use the same domain logic." |
-| Quote for [scoring/separation/Hexagonal/con/Additional maintenance overhead] | "Maintenance overhead: The additional adapter code that makes the architecture pluggable is justified only if the application component requires several input sources and output destinations to write to, or when the inputs and output data store has to change over time. Otherwise, the adapter becomes another additional layer to maintain, which introduces maintenance overhead." |
-
-## Beginner’s Guide to Hexagonal Architecture Diagram (Data Flow)
-- [2]: https://blog.visual-paradigm.com/beginners-guide-to-hexagonal-architecture-diagram-data-flow/
-| Link | https://blog.visual-paradigm.com/beginners-guide-to-hexagonal-architecture-diagram-data-flow/ |
-|-|-|
-| Retrieved | 2026-04-08 |
-| Quote for [scoring/separation/Hexagonal/pro/Loose coupling through ports] | The Hexagonal Architecture divides a software system into loosely coupled and interchangeable components. These components include the application core, database, user interface, test scripts, and interfaces with other systems |
-
-## serodriguez68 / clean-architecture -> Part V - 2 - Architecture
-- [3]: https://github.com/serodriguez68/clean-architecture/blob/master/part-5-2-architecture.md
-| Link | https://github.com/serodriguez68/clean-architecture/blob/master/part-5-2-architecture.md |
-|-|-|
-| Retrieved | 2026-04-08 |
-| Quote for [scoring/separation/Hexagonal/pro/UI independence] | "Independent of the UI: The UI can change easily with no impact to the business rules. The UI can easily be replaced." |
-
-
-## marc-gil / hexagonal-architecture -> Hexagonal Architecture
-- [4]: https://github.com/marc-gil/hexagonal-architecture
-| Link | https://github.com/marc-gil/hexagonal-architecture |
-|-|-|
-| Retrieved | 2026-04-08 |
-| Quote for [scoring/separation/Hexagonal/pro/Multiple UI support] | "This allows the same core logic to be used with different technologies in a seamless way" |
-
-## Quality by design
-- [5]: https://docs.aws.amazon.com/prescriptive-guidance/latest/hexagonal-architectures/improve-software-quality.html
-| Link | https://docs.aws.amazon.com/prescriptive-guidance/latest/hexagonal-architectures/improve-software-quality.html |
-|-|-|
-| Retrieved | 2026-04-08 |
-| Quote for [scoring/separation/Hexagonal/pro/Testability] | "In hexagonal architecture, you test business logic in isolation, and use integration tests to test secondary adapters. You can use mock or fake adapters in your business logic tests." |
-
-## Who does what and who lives where?
-- [6]: https://softwareengineering.stackexchange.com/questions/405905/who-does-what-and-who-lives-where/405907#405907
-| Link | https://softwareengineering.stackexchange.com/questions/405905/who-does-what-and-who-lives-where/405907#405907 |
-|-|-|
-| Retrieved | 2026-04-08 |
-| Quote for [scoring/separation/Hexagonal/con/Shared UI model across adapters] | "But even if you have several UIs (e.g. website and native apps), you still have one UI model in the core. Filtering data or UI implementation specific calculations are a problem for the adapters or maybe the actual UI" |
 
 ## Hexagonal Architecture
-- [7]: https://itnext.io/hexagonal-architecture-fe1250fb52be
-| Link | https://itnext.io/hexagonal-architecture-fe1250fb52be |
+- [1]: https://startup-house.com/blog/hexagonal-architecture-modern-software-mastery
+| Link | https://startup-house.com/blog/hexagonal-architecture-modern-software-mastery |
 |-|-|
-| Retrieved | 2026-04-08 |
-| Quote for [scoring/separation/Hexagonal/con/Potential for tight coupling] | "There is also a high risk to design a leaky abstraction — an SPI which looks generic but its contract matches that of the vendor used at the start of the project, making it much harder than expected to change the vendor." |
+| Retrieved | 2026-04-13 |
+| Quote for [scoring/separation/hexagonal/pro/High Degree of Isolation] | "... keeping an application’s domain models and rules free from specific details about databases, user interfaces ..." |
+| Quote for [scoring/separation/hexagonal/pro/Excellent Replaceability] | "... an application obtains remarkable flexibility and adaptability since there's no direct dependency on inversion or on any specific technology or delivery mechanism." |
+| Quote for [scoring/separation/MVP/pro/Complex Setup and Testing] | "... building up and maintaining a hexagonal setup can result in heightened developmental overheads. This is mainly attributed to the numerous adapters needed to connect different parts of the system" |
 
 ## Building Hexagonal Architecture for Scalable Solutions
-- [8]: https://blog.dtdl.in/building-hexagonal-architecture-for-scalable-solutions-b20b4993a71b
+- [2]: https://blog.dtdl.in/building-hexagonal-architecture-for-scalable-solutions-b20b4993a71b
 | Link | https://blog.dtdl.in/building-hexagonal-architecture-for-scalable-solutions-b20b4993a71b |
 |-|-|
-| Retrieved | 2026-04-08 |
-| Quote for [scoring/separation/Hexagonal/con/Domain logic leak risk] | "Front-end Challenges: The application’s business logic tends to seep into the user interface in the front end, leading to challenging testing due to its tight coupling with the UI" |
+| Retrieved | 2026-04-13 |
+| Quote for [scoring/separation/hexagonal/pro/Loose Coupling] | "Loose Coupling: Reduced dependencies between different layers of the application." |
+| Quote for [scoring/separation/hexagonal/con/Complexity Overhead] | "Complexity: Introduces initial complexity with multiple layers and interfaces." |
+| Quote for [scoring/separation/hexagonal/con/Risk of Over-Engineering] | "Over-Engineering: Risk of excessive layers in simple projects." |
+
+## Hexagonal Architecture
+- [3]: https://metapatterns.io/implementation-metapatterns/hexagonal-architecture/
+| Link | https://metapatterns.io/implementation-metapatterns/hexagonal-architecture/ |
+|-|-|
+| Retrieved | 2026-04-13 |
+| Quote for [scoring/separation/hexagonal/pro/] | "For example, you may need a desktop GUI, mobile GUI, CLI, web application (REST), and customer (JSON or gRPC) adapters all of which are built on top of your component’s API." |
+| Quote for [scoring/separation/hexagonal/con/] | "" |
+| Quote for [scoring/separation/hexagonal/con/Performance Impact] | "Drawbacks: Suboptimal performance" |
+
+## Hexagon
+- [4]: https://www.howdy.com/glossary/hexagon
+| Link | https://www.howdy.com/glossary/hexagon |
+|-|-|
+| Retrieved | 2026-04-13 |
+| Quote for [scoring/separation/hexagonal/con/Complexity Overhead] | "Weaknesses involve potential complexity in initial implementation and a steeper learning curve ..." |

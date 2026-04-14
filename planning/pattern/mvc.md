@@ -32,7 +32,7 @@ Can be difficult to implement for applications with complicated state or interac
 | Retrieved | 2026-04-09 |
 
 ## Difference Between MVC and MVP Patterns
-- [2]: [www.XXXXXXXXX.com](https://www.baeldung.com/mvc-vs-mvp-pattern)
+- [2]: https://www.baeldung.com/mvc-vs-mvp-pattern
 | Link | https://www.baeldung.com/mvc-vs-mvp-pattern |
 |-|-|
 | Retrieved | 2026-04-09 |

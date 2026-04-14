@@ -1,35 +1,3 @@
-Please judge the patterns below for [Reusability]. Write a few sentences for every architectural pattern.
-
-- Search the web and SHOW YOUR SOURCES as well as quotes when what source is relevant (like this [1])
-- supply the sources (supply the used link)
-- use a scale from 0 (the worst and not usable) to 10 (perfect, nothing to criticize)
-- keep a clean and academic style (dont address me with your code, ...)
-- Represent the scoring like this:
-- in the application I use the languages: C/C++ and Python
-- in the application I use the tool: ImGui, ImPlot and ImNodeFlow
-  - I do NOT use C# or dot Net, so if the architectural pattern needs spetal stuff only found in higher languages then that is a minus
-
-## Reusability
-|Description | Ability to reuse business logic or UI components across projects. |
-|-|-|
-|Sub-factors | Portability across projects or products <br> Independence from specific UI or deployment platform <br> Ease of adapting components for new requirements |
-|Metrics     | Percentage of code reused across projects <br> Time to adapt for a new platform or project |
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 # Revision Count
@@ -39,12 +7,12 @@ Please judge the patterns below for [Reusability]. Write a few sentences for eve
 | MVC                  |       1 |         |         |         |         |         |
 | MVP                  |       1 |         |         |         |         |         |
 | MVVM                 |       1 |         |         |         |         |         |
-| MVA                  |         |         |         |         |         |         |
+| MVA                  |       1 |         |         |         |         |         |
 | Hexagonal            |       1 |         |         |         |         |         |
 | Onion                |       1 |         |         |         |         |         |
-| Front Controller     |         |         |         |         |         |         |
-| Backend-for-Frontend |         |         |         |         |         |         |
-| Microkernel          |         |         |         |         |         |         |
+| Front Controller     |       1 |         |         |         |         |         |
+| Backend-for-Frontend |       1 |         |         |         |         |         |
+| Microkernel          |       1 |         |         |         |         |         |
 
 
 
@@ -53,18 +21,11 @@ Please judge the patterns below for [Reusability]. Write a few sentences for eve
 
 
 
-
-
-
-
-
-
-
-Judge the Onion Architecture Architecture pattern by Separation. ONLY focus on Separation!
-| Description | Measures how well the pattern isolates UI from business logic. |
+Judge Model-View-Presenter Architecture pattern by Scalability. ONLY focus on Scalability!
+| Description | How well the architecture handles growth in features, complexity, or team size. |
 |-|-|
-| Sub-factors | Degree of coupling (tight vs loose) <br> Ease of replacing one module without affecting others <br> Support for multiple UI platforms |
-| Metrics | Number of dependencies between layers <br> Lines of code that need to change when modifying logic/UI |
+| Sub-factors | Ease of adding new modules or features <br> Ability to support multiple users or devices <br> Support for parallel development by multiple teams |
+| Metrics | Number of new modules added without changing core <br> Time required to integrate new features |
 
 
 Be realistic and very slightly pessimistic (don't invent problems, only if you find them in a web site, then you can lower the score).
@@ -77,12 +38,12 @@ Be realistic and very slightly pessimistic (don't invent problems, only if you f
     short explanation text, a description of the evaluation
 
     **Pros:**
-    - pro point [1]
-    - pro point [2]
+    - **title**: pro point [1]
+    - **title**: pro point [2]
 
     **Cons:**
-    - con point [3]
-    - con point [4]
+    - **title**: con point [3]
+    - **title**: con point [4]
 
     **Score: XX/10**
 
@@ -92,32 +53,36 @@ Be realistic and very slightly pessimistic (don't invent problems, only if you f
     4: www.aaaaaaaaaa.com
 
 
-## Onion Architecture
+## Model-View-Presenter (MVP)
 
-The Onion Architecture is a software architectural pattern introduced by Jeffrey Palermo in 2008 to address the problems of tight coupling and difficulty in maintaining long-lived, complex business applications. Its core principle is to place the Domain Model – the true business logic and entities – at the very center of the system. Around this core, concentric layers are built, each representing a higher level of abstraction, but crucially, dependencies always point inward. The inner layers know nothing about the outer layers; they define interfaces (ports) that the outer layers (adapters) must implement. This externalizes infrastructure concerns such as data access, logging, file I/O, and even the user interface to the outermost ring. Common layers from center to outside are: Domain Model, Domain Services, Application Services, and Infrastructure/UI. By adhering to the Dependency Inversion principle, the Onion Architecture decouples business logic from technical details, making the application easier to test, evolve, and adapt to changes in technology. However, the pattern is not a one-size-fits-all solution – it is deliberately designed for long‑lived systems with rich, complex behavior, and it would be over‑engineering for small websites or simple applications.
+MVP is an architectural pattern that addresses some of the drawbacks of the traditional MVC approach. It was first introduced in the 1990s as a specialization of MVC, focusing on improving the separation of concerns between the view and the model. MVP divides the application's components into three main parts:
+
+- Model: Represents the data and business logic of the application, similar to the model in MVC. It is responsible for processing, storing, and managing data and implementing any necessary business rules. The model does not communicate directly with the view or presenter.
+- View: Represents the user interface and presentation layer of the application. Like the view in MVC, its primary function is to display data fetched from the model. However, in MVP, the view is more passive and relies on the presenter for updates and user input handling. The view communicates only with the presenter and not with the model.
+- Presenter: Acts as a bridge between the model and the view, taking on some of the controller's responsibilities in MVC. The presenter fetches data from the model and updates the view, ensuring the correct data presentation. Unlike the controller, the presenter also handles user input directly from the view and facilitates two-way communication between the view and the model.
+
+The main difference between MVC and MVP lies in the controller and presenter's roles. In MVP, the presenter becomes more involved in user interactions and the flow of data between the view and the model, leaving the view as a passive component. This separation of concerns allows for better testability and modularity, as each component can be isolated and tested independently.
 
 ### Pros:
-- **Maintainability over time**: By isolating business rules in the core, the system remains easier to understand and modify even as it grows.
-- **Controlled coupling**: All dependencies point inward, eliminating circular references and reducing the risk that a small change will break unrelated parts.
-- **Externalisation of infrastructure**: Data access, UI, and third‑party services live in the outer rings, making it straightforward to swap out technologies (e.g., change a database or a message queue) without touching the core logic.
-- **High testability**: The inner domain and application layers can be unit‑tested in isolation because they depend only on abstractions (interfaces), not on concrete infrastructure.
-- **Long‑term scalability**: The architecture naturally supports complex business domains and evolving requirements over many years.
+Improved separation of concerns between view and model.
+The presenter facilitates better testability and modularity.
+Each component can be modified or replaced without affecting others.
+Better suited for applications with complex state or interaction requirements.
 
 ### Cons:
-- **Not appropriate for small projects**: For a simple website or a short‑lived application, the overhead of setting up layers, interfaces, and dependency injection adds unnecessary complexity without tangible benefit.
-- **Initial learning curve**: Teams unfamiliar with Dependency Inversion, separation of concerns, and interface‑based design may struggle to implement the pattern correctly.
-- **Potential for interface duplication**: Each layer often defines its own interfaces (e.g., repositories, services), leading to a proliferation of contracts that must be mapped, which can feel redundant for trivial operations.
-- **Setup complexity**: Getting the project structure, dependency management (e.g., using an IoC container), and test harness right from the start requires more upfront design compared to simpler architectures like N‑tier or MVC.
-
+Increased complexity compared to traditional MVC, due to the presenter's added responsibilities.
+Can lead to a larger codebase and the need for more boilerplate code.
+Potential for communication overhead between the components.
 
 
 
 use the following links:
-https://www.clarity-ventures.com/articles/onion-based-software-architecture
-https://jeffreypalermo.com/2008/07/the-onion-architecture-part-1/
-https://clearmeasure.com/onion-architecture-pwp-episode-2/
-https://skillsfundingagency.github.io/das-technical-guidance/development_standards/solution-structure#solution-architecture
-https://innovaformazione.net/clean-architecture-vs-onion-architecture/
+- https://appmaster.io/blog/architectural-patterns-mvc-mvp-and-mvvm#model-view-presenter-mvp
+- https://www.vogella.com/tutorials/AndroidArchitecture/article.html
+- https://www.it-schulungen.com/wir-ueber-uns/wissensblog/mvp-architektur-model-view-presenter-erklaert-struktur-vorteile-und-einsatzbereiche.html
+- https://www.baeldung.com/mvc-vs-mvp-pattern
+- https://www.notion.so/essentialbooks/MVP-Architecture-f2c2f7bba0a042dca350f9777169026d
+- https://www.educative.io/answers/mvc-vs-mvp-vs-mvvm
 
 
 
@@ -129,7 +94,7 @@ https://innovaformazione.net/clean-architecture-vs-onion-architecture/
 
 
 
-Find 5 websites that have a description/pros/cons about the  Backend-for-Frontend (BFF) pattern
+Find 5 english websites that have a description/pros/cons about the [Microkernel] Architecture pattern
 
 
 
@@ -142,15 +107,16 @@ Find 5 websites that have a description/pros/cons about the  Backend-for-Fronten
 
 
 
-Use the following websites and create an explanation about the BFF pattern:
-- https://duendesoftware.com/learn/the-backend-for-frontend-bff-pattern-explained-benefits-challenges-and-best-practices/
-- https://github.com/denyspoltorak/metapatterns/wiki/Backends-for-Frontends-(BFF)
-- https://aws.amazon.com/ru/blogs/mobile/backends-for-frontends-pattern/
-- https://medium.com/@g.m.hislop93/the-pros-and-cons-of-using-a-backend-for-frontend-bff-a67e2edaefab
-- https://www.techtarget.com/searchapparchitecture/tip/Using-the-BFF-pattern-to-keep-UIs-flexible-and-reliable
+Use the following websites and create an explanation about the Microkernel Architecture pattern:
+- https://softwarepatternslexicon.com/rust/advanced-topics-and-emerging-technologies/the-microkernel-architecture-pattern/
+- https://www.geeksforgeeks.org/system-design/microkernel-architecture-pattern-system-design/
+- https://bluegoatcyber.com/blog/microkernels-medical-device-cybersecurity/
+- https://codelucky.com/operating-system-architecture-monolithic-microkernel/#Advantages_of_Microkernels
+- https://bluetoaster.io/posts/microkernel-software-architecture/
+- https://metapatterns.io/implementation-metapatterns/microkernel/
 
 Use this format:
-## Backend-for-Frontend (BFF)
+## Microkernel Architecture
 
 <Description, moderately detailed>
 
@@ -165,19 +131,25 @@ Use this format:
 
 
 
-where exactly in the sources does it say the following. Give me the exact lines that support this claim:
+where exactly in the sources does it support the following. Give me the exact lines that support this claim (don't need the exact wording, just the meaning):
 
-- **Optimized client experiences** – Each BFF can tailor API responses to its specific frontend, avoiding unnecessary data transfer and reducing latency for mobile or low‑bandwidth devices.
+- **Feature Modularity**: MVP's separation of concerns makes the code more modular. Each component (Model, View, Presenter) can be modified or replaced without affecting others, which eases the addition of new modules. You can extend a feature by adding a new View, a corresponding Presenter, and reusing the Model.
 
 Give the full and correct link per instance
 Use the following sources if possible. If you cant find it there then look in the remaining internat.
 
 Sources:
-- https://duendesoftware.com/learn/the-backend-for-frontend-bff-pattern-explained-benefits-challenges-and-best-practices/
-- https://github.com/denyspoltorak/metapatterns/wiki/Backends-for-Frontends-(BFF)
-- https://aws.amazon.com/ru/blogs/mobile/backends-for-frontends-pattern/
-- https://medium.com/@g.m.hislop93/the-pros-and-cons-of-using-a-backend-for-frontend-bff-a67e2edaefab
-- https://www.techtarget.com/searchapparchitecture/tip/Using-the-BFF-pattern-to-keep-UIs-flexible-and-reliable
+- https://appmaster.io/blog/architectural-patterns-mvc-mvp-and-mvvm#model-view-presenter-mvp
+- https://www.vogella.com/tutorials/AndroidArchitecture/article.html
+- https://www.it-schulungen.com/wir-ueber-uns/wissensblog/mvp-architektur-model-view-presenter-erklaert-struktur-vorteile-und-einsatzbereiche.html
+- https://www.baeldung.com/mvc-vs-mvp-pattern
+- https://www.notion.so/essentialbooks/MVP-Architecture-f2c2f7bba0a042dca350f9777169026d
+- https://www.educative.io/answers/mvc-vs-mvp-vs-mvvm
+
+
+
+
+
 
 
 
@@ -188,7 +160,5 @@ Sources:
 - [X]: www.XXXXXXXXX.com
 | Link |  |
 |-|-|
-| Retrieved | 2026-04-10 |
-| Quote for [scoring/separation/MVP/pro/] | "" |
-
-
+| Retrieved | 2026-04-13 |
+| Quote for [scoring/scalability/BFF/pro/] | "" |
