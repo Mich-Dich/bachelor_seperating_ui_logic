@@ -1,3 +1,6 @@
+---
+bibliography: code/refs.bib
+---
 
 ## Front Controller Pattern [1] [2] [3] [4] [5]
 

@@ -1,3 +1,6 @@
+---
+bibliography: code/refs.bib
+---
 
 ## Backend-for-Frontend (BFF) [1] [2] [3] [4] [5]
 

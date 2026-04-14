@@ -1,5 +1,8 @@
+---
+bibliography: code/refs.bib
+---
 
-## Model-View-Presenter (MVP) [1], [2], [3], [4], [5], [6]
+## Model-View-Presenter (MVP) [@team2023architec] [@stackoverflowblog2023keep] [@mehrotranodateundersta]
 
 MVP is an architectural pattern that addresses some of the drawbacks of the traditional MVC approach. It was first introduced in the 1990s as a specialization of MVC, focusing on improving the separation of concerns between the view and the model. MVP divides the application's components into three main parts:
 
@@ -19,43 +22,3 @@ Better suited for applications with complex state or interaction requirements.
 Increased complexity compared to traditional MVC, due to the presenter's added responsibilities.
 Can lead to a larger codebase and the need for more boilerplate code.
 Potential for communication overhead between the components.
-
-![MVP](../images/presenter.png)
-
-
-
-## Architectural Patterns: MVC, MVP, and MVVM Explained
-- [1]: https://appmaster.io/blog/architectural-patterns-mvc-mvp-and-mvvm#model-view-presenter-mvp
-| Link | https://appmaster.io/blog/architectural-patterns-mvc-mvp-and-mvvm#model-view-presenter-mvp |
-|-|-|
-| Retrieved | 2026-04-09 |
-
-## Android Architecture with MVP or MVVM - Tutorial
-- [2]: https://www.vogella.com/tutorials/AndroidArchitecture/article.html
-| Link | https://www.vogella.com/tutorials/AndroidArchitecture/article.html |
-|-|-|
-| Retrieved | 2026-04-09 |
-
-## MVP-Architektur – Model-View-Presenter erklärt: Struktur, Vorteile und Einsatzbereiche
-- [3]: https://www.it-schulungen.com/wir-ueber-uns/wissensblog/mvp-architektur-model-view-presenter-erklaert-struktur-vorteile-und-einsatzbereiche.html
-| Link | https://www.it-schulungen.com/wir-ueber-uns/wissensblog/mvp-architektur-model-view-presenter-erklaert-struktur-vorteile-und-einsatzbereiche.html |
-|-|-|
-| Retrieved | 2026-04-09 |
-
-## Difference Between MVC and MVP Patterns
-- [4]: https://www.baeldung.com/mvc-vs-mvp-pattern
-| Link | https://www.baeldung.com/mvc-vs-mvp-pattern |
-|-|-|
-| Retrieved | 2026-04-09 |
-
-## MVP Architecture
-- [5]: https://www.notion.so/essentialbooks/MVP-Architecture-f2c2f7bba0a042dca350f9777169026d
-| Link | https://www.notion.so/essentialbooks/MVP-Architecture-f2c2f7bba0a042dca350f9777169026d |
-|-|-|
-| Retrieved | 2026-04-09 |
-
-## MVC vs MVP vs MVVM
-- [6]: https://www.educative.io/answers/mvc-vs-mvp-vs-mvvm
-| Link | https://www.educative.io/answers/mvc-vs-mvp-vs-mvvm |
-|-|-|
-| Retrieved | 2026-04-09 |

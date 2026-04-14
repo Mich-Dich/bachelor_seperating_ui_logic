@@ -1,3 +1,6 @@
+---
+bibliography: code/refs.bib
+---
 
 ## Onion Architecture [1] [2] [3] [4] [5]
 

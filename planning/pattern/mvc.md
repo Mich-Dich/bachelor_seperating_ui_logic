@@ -1,5 +1,8 @@
+---
+bibliography: code/refs.bib
+---
 
-## Model-View-Controller (MVC) [1] [2] [3]
+## Model-View-Controller (MVC) [@team2023architec] [@stackoverflowblog2023keep] [@educativeionodatemvc] [@mehrotranodateundersta]
 
 MVC is one of the software industry's most widely known and adopted architectural patterns. It was first introduced in the late 1970s by Trygve Reenskaug, a Norwegian computer scientist, and has since become a staple in application architecture. The pattern facilitates the separation of concerns by dividing the application into three main components:
 
@@ -21,24 +24,7 @@ Can be difficult to implement for applications with complicated state or interac
 
 ![MVC](../images/controller.png)
 
+## References
 
-
-
-
-## Architectural Patterns: MVC, MVP, and MVVM Explained
-- [1]: https://appmaster.io/blog/architectural-patterns-mvc-mvp-and-mvvm#model-view-presenter-mvp
-| Link | https://appmaster.io/blog/architectural-patterns-mvc-mvp-and-mvvm#model-view-presenter-mvp |
-|-|-|
-| Retrieved | 2026-04-09 |
-
-## Difference Between MVC and MVP Patterns
-- [2]: https://www.baeldung.com/mvc-vs-mvp-pattern
-| Link | https://www.baeldung.com/mvc-vs-mvp-pattern |
-|-|-|
-| Retrieved | 2026-04-09 |
-
-## MVC vs MVP vs MVVM
-- [3]: https://www.educative.io/answers/mvc-vs-mvp-vs-mvvm
-| Link | https://www.educative.io/answers/mvc-vs-mvp-vs-mvvm |
-|-|-|
-| Retrieved | 2026-04-09 |
+::: {#refs}
+:::

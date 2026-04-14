@@ -1,3 +1,6 @@
+---
+bibliography: code/refs.bib
+---
 
 ## Microkernel Architecture
 

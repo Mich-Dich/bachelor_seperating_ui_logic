@@ -21,7 +21,7 @@
 
 
 
-Judge Model-View-Presenter Architecture pattern by Scalability. ONLY focus on Scalability!
+Judge Model-View-Controller Architecture pattern by Scalability. ONLY focus on Scalability!
 | Description | How well the architecture handles growth in features, complexity, or team size. |
 |-|-|
 | Sub-factors | Ease of adding new modules or features <br> Ability to support multiple users or devices <br> Support for parallel development by multiple teams |
@@ -94,7 +94,7 @@ use the following links:
 
 
 
-Find 5 english websites that have a description/pros/cons about the [Microkernel] Architecture pattern
+Find 5 english websites that have a description/pros/cons about the [Model-View-Controller] Architecture pattern
 
 
 
@@ -162,3 +162,15 @@ Sources:
 |-|-|
 | Retrieved | 2026-04-13 |
 | Quote for [scoring/scalability/BFF/pro/] | "" |
+
+
+
+
+
+
+
+
+
+For reference:
+C:\uni\bachelor_seperating_ui_logic\code\refs.bib
+C:\uni\bachelor_seperating_ui_logic\planning\pattern\mvc.md

@@ -1,3 +1,6 @@
+---
+bibliography: code/refs.bib
+---
 
 ## Model-View-ViewModel (MVVM) [1][2][3][4][5]
 

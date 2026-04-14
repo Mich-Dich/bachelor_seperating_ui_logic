@@ -1,0 +1,10 @@
+{
+    "recommendations": [
+        "ncukondo.vscode-markdown-academic-preview",
+        "jebbs.plantuml",
+        "qhoekman.language-plantuml",
+        "stamminger.vscode-markdown-preview-include",
+        "yzhang.markdown-all-in-one",
+        "streetsidesoftware.code-spell-checker"
+    ]
+}
