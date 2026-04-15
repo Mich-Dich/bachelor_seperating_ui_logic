@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 """
-Interactive BibTeX entry creator from websites.
-Continuously prompts for URLs and appends @online entries to a .bib file,
-avoiding duplicates. Exit with 'q' or Ctrl+C.
+Interactive BibTeX entry creator from websites and citation‑key resolver.
+- Paste a URL → adds an @online entry to your .bib file.
+- Paste citation keys like [@smith2023example] [@jones2022test] → shows URLs.
+Exit with 'q' or Ctrl+C.
 Dependencies: requests, beautifulsoup4
-Install: pip install requests beautifulsoup4
+Optional: cloudscraper (for Cloudflare/403 bypass)
+Install: pip install requests beautifulsoup4 cloudscraper
 """
 
 import re
@@ -16,6 +18,13 @@ from pathlib import Path
 
 import requests
 from bs4 import BeautifulSoup
+
+# Try to import cloudscraper for stubborn sites
+try:
+    import cloudscraper
+    HAS_CLOUDSCRAPER = True
+except ImportError:
+    HAS_CLOUDSCRAPER = False
 
 
 def clean_text(text):
@@ -57,7 +66,7 @@ def extract_author(soup, url):
         except (json.JSONDecodeError, TypeError, KeyError):
             continue
 
-    # Fallback: use domain name without extra braces
+    # Fallback: use domain name
     domain = urlparse(url).netloc.replace('www.', '')
     return domain
 
@@ -85,7 +94,6 @@ def generate_bibkey(author, year, title):
     """
     # Extract last part of author (surname)
     if author and author != "unknown":
-        # Remove any punctuation, split by whitespace
         author_clean = re.sub(r'[^\w\s]', '', author)
         parts = author_clean.split()
         last = parts[-1].lower() if parts else 'unknown'
@@ -110,7 +118,7 @@ def escape_bibtex(text):
     """
     Escape only characters that are truly special in BibTeX:
     & % $ # _ ~ ^
-    Braces { } and backslashes \ are left untouched.
+    Braces { } and backslashes \\ are left untouched.
     """
     if not text:
         return ""
@@ -130,12 +138,10 @@ def escape_bibtex(text):
 
 def create_bibtex_entry(url, title, author, date, urldate):
     """Return a formatted BibTeX @online entry."""
-    # Escape only special characters, not braces
     title_esc = escape_bibtex(title)
     author_esc = escape_bibtex(author)
     year = date[:4] if len(date) >= 4 and date[:4].isdigit() else "n.d."
 
-    # Generate key from raw (unescaped) strings
     bibkey = generate_bibkey(author, year, title)
 
     return f"""@online{{{bibkey},
@@ -165,26 +171,120 @@ def is_url_in_bibfile(bib_path, target_url):
     return False
 
 
+def get_soup_with_fallback(url):
+    """
+    Attempt to fetch and parse a URL using multiple strategies.
+    Returns (soup, success_flag) or (None, False) on complete failure.
+    """
+    # Enhanced browser headers
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+        'Accept-Language': 'en-US,en;q=0.5',
+        'Accept-Encoding': 'gzip, deflate, br',
+        'Connection': 'keep-alive',
+        'Upgrade-Insecure-Requests': '1',
+        'Sec-Fetch-Dest': 'document',
+        'Sec-Fetch-Mode': 'navigate',
+        'Sec-Fetch-Site': 'none',
+        'Sec-Fetch-User': '?1',
+        'Cache-Control': 'max-age=0',
+    }
+
+    # Try normal requests with session
+    session = requests.Session()
+    session.headers.update(headers)
+    try:
+        resp = session.get(url, timeout=15)
+        resp.raise_for_status()
+        return BeautifulSoup(resp.text, 'html.parser'), True
+    except requests.exceptions.RequestException as e:
+        print(f"Standard request failed: {e}")
+
+    # If 403 and cloudscraper is available, try that
+    if HAS_CLOUDSCRAPER:
+        print("Trying cloudscraper to bypass bot protection...")
+        try:
+            scraper = cloudscraper.create_scraper()
+            resp = scraper.get(url, timeout=20)
+            resp.raise_for_status()
+            return BeautifulSoup(resp.text, 'html.parser'), True
+        except Exception as e:
+            print(f"cloudscraper also failed: {e}")
+
+    # Special handling for Medium (use JSON API if possible)
+    if "medium.com" in url:
+        print("Medium detected – trying alternative API endpoint...")
+        # Convert article URL to JSON format: https://medium.com/@user/post -> https://medium.com/@user/post?format=json
+        json_url = url + "?format=json"
+        try:
+            resp = session.get(json_url, timeout=10)
+            # Medium wraps JSON in "])}while(1);</x>" – strip it
+            if resp.status_code == 200:
+                raw = resp.text
+                # Remove the garbage prefix
+                if raw.startswith("])}while(1);</x>"):
+                    raw = raw.split("</x>", 1)[-1]
+                data = json.loads(raw)
+                # Extract title and author from the payload
+                title = data.get("payload", {}).get("title") or data.get("title")
+                author = data.get("payload", {}).get("author", {}).get("name") or data.get("author")
+                date = data.get("payload", {}).get("publishedAt", "")[:10] or ""
+                # Manually build a minimal soup with these fields
+                class FakeSoup:
+                    pass
+                soup = FakeSoup()
+                soup.title = lambda: None
+                soup.title.string = title
+                # For author/date extraction we'll just return special values
+                # We'll handle this outside the soup mechanism
+                return (soup, True, {"title": title, "author": author, "date": date})
+        except Exception as e:
+            print(f"Medium API attempt failed: {e}")
+
+    return None, False
+
+
 def add_url_to_bib(bib_path, url, force=False):
     """Fetch, create entry, and append to bib file if not duplicate (or force)."""
     if not force and is_url_in_bibfile(bib_path, url):
         print(f"URL already exists in {bib_path.name}. Skipping.")
         return False
 
-    try:
-        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'}
-        resp = requests.get(url, headers=headers, timeout=10)
-        resp.raise_for_status()
-        soup = BeautifulSoup(resp.text, 'html.parser')
-    except requests.exceptions.RequestException as e:
-        print(f"Error fetching {url}: {e}")
-        return False
+    # Attempt to fetch soup
+    result = get_soup_with_fallback(url)
+    if len(result) == 3:  # Medium API special case
+        soup, success, extra = result
+        if success:
+            title = extra.get("title", extract_title(soup, url))
+            author = extra.get("author", extract_author(soup, url))
+            date = extra.get("date", extract_date(soup))
+        else:
+            title = author = date = None
+    else:
+        soup, success = result
+        if success:
+            title = extract_title(soup, url)
+            author = extract_author(soup, url)
+            date = extract_date(soup)
+        else:
+            title = author = date = None
 
-    title = extract_title(soup, url)
-    author = extract_author(soup, url)
-    date = extract_date(soup)
+    # If all automatic methods failed, ask for manual input
+    if not success or not title:
+        print("\n⚠️  Could not fetch page automatically (403 or other error).")
+        print("Please provide the following information manually:")
+        title = input("  Title: ").strip()
+        if not title:
+            title = urlparse(url).netloc
+        author = input("  Author (or domain): ").strip()
+        if not author:
+            author = urlparse(url).netloc
+        date = input("  Date (YYYY-MM-DD or n.d.): ").strip()
+        if not date:
+            date = "n.d."
+
     urldate = datetime.now().strftime("%Y-%m-%d")
-
     entry = create_bibtex_entry(url, title, author, date, urldate)
 
     # Write to file
@@ -199,25 +299,101 @@ def add_url_to_bib(bib_path, url, force=False):
     return True
 
 
+def parse_bib_for_urls(bib_path):
+    """
+    Read a .bib file and return a dict mapping citation keys to URLs.
+    Only looks at @online entries.
+    """
+    key_to_url = {}
+    if not bib_path.exists():
+        return key_to_url
+
+    content = bib_path.read_text(encoding='utf-8')
+    # Split on lines that start with @online (simplistic, but works for our own format)
+    entries = re.split(r'\n(?=@online\{)', content)
+    for entry in entries:
+        # Extract key: @online{key,
+        key_match = re.search(r'@online\{([^,]+),', entry)
+        if not key_match:
+            continue
+        key = key_match.group(1).strip()
+        # Extract URL
+        url_match = re.search(r'url\s*=\s*[{"\']([^"\'}]+)[}"\']', entry, re.IGNORECASE)
+        if url_match:
+            url = url_match.group(1).strip()
+            key_to_url[key] = url
+    return key_to_url
+
+
+def handle_citation_lookup(bib_path, input_text):
+    """
+    Detect citation keys like [@key1] [@key2] and print their URLs.
+    Returns True if input was a citation list and handled, else False.
+    """
+    # Look for patterns like [@somekey] - may be multiple separated by spaces
+    pattern = r'\[@([^\]]+)\]'
+    matches = re.findall(pattern, input_text)
+    if not matches:
+        return False
+
+    # We found citation keys – handle them
+    key_to_url = parse_bib_for_urls(bib_path)
+    found_all = True
+    urls = []
+
+    for key in matches:
+        url = key_to_url.get(key)
+        if url:
+            urls.append(url)
+        else:
+            print(f"⚠️  Citation key '@{key}' not found in {bib_path.name}")
+            found_all = False
+
+    if found_all:
+        print("✅ All citation keys found.")
+    else:
+        print("❌ Some citation keys were not found.")
+
+    if urls:
+        print("\nLinks:")
+        for url in urls:
+            print(f"- {url}")
+    else:
+        print("No URLs to display.")
+
+    return True
+
+
 def main():
     import argparse
-    parser = argparse.ArgumentParser(description="Interactive BibTeX entry creator from websites.")
+    parser = argparse.ArgumentParser(description="Interactive BibTeX entry creator from websites and citation lookup.")
     parser.add_argument("-o", "--output", default="references.bib", help="Output .bib file (default: references.bib)")
     args = parser.parse_args()
 
     bib_path = Path(args.output)
     print(f"BibTeX file: {bib_path}")
-    print("Enter URLs one per line. Type 'q' or press Ctrl+C to quit.\n")
+    if not HAS_CLOUDSCRAPER:
+        print("Note: cloudscraper not installed. Install it for better 403 bypass: pip install cloudscraper")
+    print("Enter URLs one per line to add them to the .bib file.")
+    print("Paste citation keys like [@smith2023] [@jones2022] to look up their URLs.")
+    print("Type 'q' or press Ctrl+C to quit.\n")
 
     while True:
         try:
-            url = input("URL: ").strip()
-            if url.lower() in ('q', 'quit', 'exit'):
+            user_input = input("Input: ").strip()
+            if user_input.lower() in ('q', 'quit', 'exit'):
                 print("Goodbye!")
                 break
-            if not url:
+            if not user_input:
                 continue
-            add_url_to_bib(bib_path, url)
+
+            # First, check if it looks like a citation key list
+            if handle_citation_lookup(bib_path, user_input):
+                continue
+
+            # Otherwise treat as a URL to add
+            add_url_to_bib(bib_path, user_input)
+
         except KeyboardInterrupt:
             print("\n\nExiting. Goodbye!")
             break

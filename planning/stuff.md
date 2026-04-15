@@ -4,9 +4,9 @@
 
 |                      | Separa. | Scalab. | Extens. | Deploy. | Perfor. | Tooling |
 |----------------------|---------|---------|---------|---------|---------|---------|
-| MVC                  |       1 |       1 |       1 |         |         |         |
-| MVP                  |         |         |         |         |         |         |
-| MVVM                 |         |         |         |         |         |         |
+| MVC                  |       1 |       1 |       1 |       1 |         |         |
+| MVP                  |       1 |       1 |       1 |       1 |         |         |
+| MVVM                 |       1 |       1 |         |         |         |         |
 | MVA                  |         |         |         |         |         |         |
 | Hexagonal            |         |         |         |         |         |         |
 | Onion                |         |         |         |         |         |         |
@@ -19,20 +19,28 @@
 
 
 
+Targeted Applications (For Context):
+- Desktop Application for Reading, Editing, and Executing Test Configurations
+- CI/CD-Compatible Application for Reading and Executing Test Configurations
+- Microcontroller-Compatible Application for Executing Test Configuration
 
 
-Judge Model-View-Controller Architecture pattern by Deployment Flexibility. ONLY focus on Deployment Flexibility!
-| Description | Ability to deploy the system across different environments (desktop, embedded, headless server/container). |
+
+
+
+
+Judge Model-View-ViewModel (MVVM) Architecture pattern by Extensibility. ONLY focus on Extensibility!
+| Description | How well the architecture accommodates changes in team size (e.g., scaling from a single developer to multiple parallel teams) and onboarding time of new members. |
 |-|-|
-| Sub-factors | Multi-platform support <br> Ability to produce different binaries from the same core <br> Remote vs local execution capability |
-| Metrics | Number of supported platforms <br> Ease of cross-compilation for embedded targets |
+| Sub-factors | Degree of modularity for independent task assignment<br>Learning curve for new developers<br>Support for concurrent development on different features without merge conflicts<br>Ability to split the system into sub‑teams working on isolated components |
+| Metrics | Number of independent modules / components <br> Average time (or lines of code) a new developer needs to understand before making a safe change <br> Number of team members that can work in parallel on different modules without coordination overhead |
+
+I use [C++23, Cmake] and when I have a renderer (Desktop application) it will use OpenGL and ImGui, I will not use Web technology, I know this makes the search harder, but If you cant find anything then just write that you found nothing for the given requirements.
 
 Be realistic and very slightly pessimistic (don't invent problems, only if you find them in a web site, then you can lower the score).
-- find positive sources and negative sources that write about the negative points
 - show your sources. what website did you use for what argument.
 - For every pro and contra point I NEED THE SOURCE WEBSITE.
 - Use natural and scientific language (this is for a bachelor thesis, I want a scientific tone)
-- give me the used sources as a complete list at the end
 - Every point needs to be supported by the provided sources
 - do not quote directly, rewrite it
 - Use this style:
@@ -45,34 +53,48 @@ Be realistic and very slightly pessimistic (don't invent problems, only if you f
     - **title**: con point
     - **title**: con point
 
-## Model-View-Controller (MVC)
+## Model-View-ViewModel (MVVM)
 
-MVC is one of the software industry's most widely known and adopted architectural patterns. It was first introduced in the late 1970s by Trygve Reenskaug, a Norwegian computer scientist, and has since become a staple in application architecture. The pattern facilitates the separation of concerns by dividing the application into three main components:
+The Model-View-ViewModel (MVVM) is a GUI architecture pattern that separates an application into three distinct components: the **Model**, the **View**, and the **ViewModel**.
 
-- Model: Represents the data and business logic of the application. It is responsible for processing, storing, and managing data and implementing any necessary business rules. The model is independent of the user interface and does not directly communicate with the view or controller.
-- View: Represents the application's user interface (UI) and presentation layer. The view's primary function is to display the data fetched from the model. It does not directly access the model but instead receives updates through the controller. Views can have multiple visual representations of the same data, enabling greater flexibility and adaptability.
-- Controller: Acts as the intermediary between the model and the view. The controller receives user input from the view, processes it, and updates the model. Once the model is updated, it notifies the controller, which then refreshes the view with new data. The controller's primary responsibility is to manage application flow and keep the model and view in sync. MVC architecture promotes loosely coupled components, improving application maintainability and testing.
+### Components of MVVM
+- **Model**: Encapsulates business logic and application data, remaining completely independent of the user interface.
+- **View**: Defines the user interface (e.g., buttons, text fields). It passively binds to the ViewModel's properties and commands, containing minimal or no application logic.
+- **ViewModel**: The core of the pattern acts as a specialized intermediary between the View and the Model. It exposes data and commands from the Model in a way that the View can easily bind to, and handles user interaction logic.
 
-Since the model, view, and controller are independent, each component can be modified or replaced without affecting others. This separation of concerns also promotes code reuse and modular development, as components can be easily rearranged and combined to create new functionality. In an MVC application, communication between components primarily follows the observer pattern. The view registers with the controller as an observer, while the model registers with the controller as a subject. When the model changes, it notifies the controller, which then updates the view accordingly.
+### How MVVM Works
+The MVVM pattern operates on a principle of reactive data flow:
+1.  The View establishes **data bindings** to properties and commands exposed by the ViewModel.
+2.  When a user interacts with the View (e.g., clicks a button), it invokes a command on the ViewModel.
+3.  The ViewModel executes the appropriate business logic, potentially updating the Model.
+4.  When the ViewModel's properties change (due to user actions or updates from the Model), they raise a notification.
+5.  The data binding system automatically propagates these changes to the View, updating the user interface seamlessly.
 
-### Pros:
-Separation of concerns improves code maintainability and reusability.
-Loose coupling between components allows easy modification and replacement.
-Supports multiple visual representations of the same data.
-Promotes modular development and code reuse.
+This separation ensures each component can be developed and tested independently, increasing efficiency and reducing potential errors.
 
-### Cons:
-The controller can become a bottleneck for complex applications with many user interactions.
-Can be difficult to implement for applications with complicated state or interaction requirements.
+### Pros
+- **Improved Testability**: By abstracting presentation logic away from the View, the ViewModel can be unit-tested without requiring a UI, making it significantly easier to write reliable tests.
+- **Decoupling of GUI and Business Logic**: The pattern ensures that the View has no direct knowledge of the Model, creating a clean separation that allows developers to work on the UI and business logic simultaneously without conflicts.
+- **Support for Data Binding**: MVVM's robust data-binding capabilities automate the synchronization between the View and ViewModel, greatly reducing boilerplate code for UI updates.
+- **Enhanced Reusability**: A single ViewModel can be bound to different Views, making it easy to present the same underlying data and logic in various formats across an application.
 
-
+### Cons
+- **Steep Learning Curve**: For developers unfamiliar with data binding and reactive programming paradigms, MVVM introduces significant new concepts that can be difficult to master.
+- **Complexity for Simple UIs**: For smaller projects or simple user interfaces, implementing the full MVVM pattern can be overkill, adding unnecessary complexity without delivering commensurate benefits.
+- **Difficult Debugging**: Declarative data bindings are often defined as strings in view templates, meaning a simple typo fails silently at runtime rather than at compile time, making bugs harder to track down and debug.
+- **Boilerplate Overhead**: In many implementations, each bindable property requires a backing field and explicit property-change notification logic, leading to repetitive code that bloats the ViewModel.
+- **Increased Memory Consumption**: The infrastructure required for data binding and property-change notifications adds runtime overhead and can lead to higher memory usage compared to simpler patterns.
 
 USE **ONLY** THE FOLLOWING SOURCES:
+- https://appmaster.io/blog/architectural-patterns-mvc-mvp-and-mvvm
 - https://www.educative.io/answers/mvc-vs-mvp-vs-mvvm
-- https://www.appventurez.com/blog/difference-between-mvc-mvp-and-mvvm-architecture
-- https://stackoverflow.blog/2023/05/17/keep-em-separated-get-better-maintainability-in-web-projects-using-the-model-view-controller-pattern/
-- https://appmaster.io/blog/architectural-patterns-mvc-mvp-and-mvvm
-- https://appmaster.io/blog/architectural-patterns-mvc-mvp-and-mvvm
+- https://learn.microsoft.com/en-gb/training/modules/design-mvvm-viewmodel/2-what-is-mvvm
+- https://ar5iv.labs.arxiv.org/html/2504.18191
+- https://www.netguru.com/blog/mvvm-architecture
+
+
+
+use the following sources, but search for more if needed:
 
 
 
@@ -81,10 +103,7 @@ USE **ONLY** THE FOLLOWING SOURCES:
 
 
 
-
-
-
-Find 5 english websites that have a description/pros/cons about the [Model-View-Controller] Architecture pattern
+Find 5 english websites that have a description/pros/cons about the [Model-View-Presenter (MVP)] Architecture pattern
 
 
 
@@ -98,12 +117,11 @@ Find 5 english websites that have a description/pros/cons about the [Model-View-
 
 
 Use the following websites and create an explanation about the Microkernel Architecture pattern:
-- https://softwarepatternslexicon.com/rust/advanced-topics-and-emerging-technologies/the-microkernel-architecture-pattern/
-- https://www.geeksforgeeks.org/system-design/microkernel-architecture-pattern-system-design/
-- https://bluegoatcyber.com/blog/microkernels-medical-device-cybersecurity/
-- https://codelucky.com/operating-system-architecture-monolithic-microkernel/#Advantages_of_Microkernels
-- https://bluetoaster.io/posts/microkernel-software-architecture/
-- https://metapatterns.io/implementation-metapatterns/microkernel/
+- https://appmaster.io/blog/architectural-patterns-mvc-mvp-and-mvvm
+- https://www.educative.io/answers/mvc-vs-mvp-vs-mvvm
+- https://learn.microsoft.com/en-gb/training/modules/design-mvvm-viewmodel/2-what-is-mvvm
+- https://ar5iv.labs.arxiv.org/html/2504.18191
+- https://www.netguru.com/blog/mvvm-architecture
 
 Use this format:
 ## Microkernel Architecture
@@ -122,15 +140,15 @@ Use this format:
 
 Check if the sources below support the following claims or if they disagree. Provide a quote what sentence you use to say if it supports or disagrees:
 
-- **Clear Separation of Concerns**: The MVC pattern is lauded for its ability to partition an application into three distinct layers—Model, View, and Controller—each with a specific responsibility. This architectural decision isolates the data and business logic (Model) from the user interface (View), which simplifies code management and improves overall maintainability. The pattern ensures that modifications in one layer, such as the UI, have a minimal impact on the other layers, promoting a more robust and adaptable codebase.
-- **Loose Coupling and Component Independence**: A direct consequence of this separation is the loose coupling between the core components. Since the Model, View, and Controller are designed to be independent, each can be modified, replaced, or even redeveloped without causing cascading effects across the entire application. This independence is further reinforced by the architectural rule that Models should not hold references to or directly call Controllers or Views, ensuring a strict boundary.
-- **Support for Multiple Visual Representations**: The separation between the Model's data and the View's presentation logic enables a single data source to be displayed in various formats simultaneously. The architecture can support different user interfaces—for instance, a web page, a mobile app screen, and a data serialization format like JSON—all representing the same underlying data without necessitating changes to the business logic.
+- **Practical Constraints on Full Decoupling**: While MVVM theoretically prescribes a strict separation between the ViewModel and the View, this ideal is often compromised in practical implementations. Achieving "pure" decoupling, wherein the ViewModel has no knowledge of the View's concrete type and communicates solely through dynamic data binding, may require significant effort or reliance on sophisticated framework features. In the absence of a robust, reflection‑based data‑binding system, as might be encountered in a custom C++ engine, developers may be compelled to introduce more direct dependencies between these layers, thereby diminishing the pattern's separation benefits.
+- **Potential Coupling of ViewModel to Graphical User Interface Frameworks**: A notable risk in MVVM implementations is the inadvertent coupling of the ViewModel to specific graphical user interface frameworks. If the ViewModel leverages framework‑specific utility classes-such as proprietary observable types or command base classes-it becomes tightly bound to that particular technology stack, which undermines its reusability across different platforms. To preserve true independence, developers must conscientiously avoid such dependencies, which can increase the complexity of the implementation.
+- **Platform‑Specific Implementation Overhead**: The degree of separation achievable with MVVM is significantly influenced by the capabilities of the chosen development platform. The pattern's full potential is most readily realized when used in conjunction with frameworks that offer robust, first‑class support for data binding, such as those that automatically propagate changes via mechanisms like property change notification interfaces. In a C++23 environment employing a custom rendering engine with OpenGL and ImGui, this built‑in support is absent. Consequently, the developer must manually construct the necessary data‑binding and notification infrastructure, which introduces a substantial amount of boilerplate code and presents a significant barrier to achieving the pattern's intended clean separation.
 
 Give the full and correct link per instance
 
 USE **ONLY** THE FOLLOWING SOURCES:
+- https://appmaster.io/blog/architectural-patterns-mvc-mvp-and-mvvm
 - https://www.educative.io/answers/mvc-vs-mvp-vs-mvvm
-- https://www.appventurez.com/blog/difference-between-mvc-mvp-and-mvvm-architecture
-- https://stackoverflow.blog/2023/05/17/keep-em-separated-get-better-maintainability-in-web-projects-using-the-model-view-controller-pattern/
-- https://appmaster.io/blog/architectural-patterns-mvc-mvp-and-mvvm
-- https://appmaster.io/blog/architectural-patterns-mvc-mvp-and-mvvm
+- https://learn.microsoft.com/en-gb/training/modules/design-mvvm-viewmodel/2-what-is-mvvm
+- https://ar5iv.labs.arxiv.org/html/2504.18191
+- https://www.netguru.com/blog/mvvm-architecture

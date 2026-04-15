@@ -2,7 +2,7 @@
 bibliography: code/refs.bib
 ---
 
-## Model-View-Presenter (MVP) [@team2023architec] [@stackoverflowblog2023keep] [@mehrotranodateundersta]
+## Model-View-Presenter (MVP)
 
 MVP is an architectural pattern that addresses some of the drawbacks of the traditional MVC approach. It was first introduced in the 1990s as a specialization of MVC, focusing on improving the separation of concerns between the view and the model. MVP divides the application's components into three main parts:
 
@@ -22,3 +22,5 @@ Better suited for applications with complex state or interaction requirements.
 Increased complexity compared to traditional MVC, due to the presenter's added responsibilities.
 Can lead to a larger codebase and the need for more boilerplate code.
 Potential for communication overhead between the components.
+
+[@team2023architec] [@stackoverflowblog2023keep] [@mehrotranodateundersta] [@holmströmnodateis] [@duggu2023mvp]

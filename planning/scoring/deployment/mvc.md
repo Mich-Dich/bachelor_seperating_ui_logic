@@ -1,6 +1,7 @@
 ---
 bibliography: code/refs.bib
 ---
+Deployment flexibility, defined here as the capacity to deploy a system across heterogeneous environments such as desktop, embedded, and headless server/container configurations, is not a primary or explicitly documented attribute of the MVC architectural pattern. The pattern's principal strengths are the separation of concerns and testability, which indirectly create conditions favorable to flexible deployment. The following assessment is therefore derived from the logical implications of the pattern's core design principles, rather than from direct statements about deployment.
 
 **Pros:**
 - **Broad Applicability Across Application Types**: The MVC pattern is not limited to a single environment. The provided sources confirm its widespread use across a diverse range of application types. One source notes that MVC can be found "on the web in both backend and frontend applications, on mobile, desktop, and more". Another source highlights its suitability for "web development frameworks such as Ruby on Rails and ASP.NET MVC", further supporting its established role in server-based environments. This adaptability across different computing contexts is a direct advantage for deployment flexibility, as it confirms the pattern's viability in web, mobile, and desktop applications.

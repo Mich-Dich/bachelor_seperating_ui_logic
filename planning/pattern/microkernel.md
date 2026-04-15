@@ -4,11 +4,11 @@ bibliography: code/refs.bib
 
 ## Microkernel Architecture
 
-The microkernel architecture pattern (also known as the plug-in architecture) structures a system into two main parts: a minimal, bare-bones **core system** (the microkernel) and **plug-in modules** (or services) that provide additional functionality. The microkernel contains only the essential, platform-specific services required to make the system operational—such as low-level memory management, process scheduling, and inter-process communication (IPC). Everything else, including device drivers, file systems, network stacks, and user-facing features, runs as separate, isolated components outside the core kernel, typically in user space.
+The microkernel architecture pattern (also known as the plug-in architecture) structures a system into two main parts: a minimal, bare-bones **core system** (the microkernel) and **plug-in modules** (or services) that provide additional functionality. The microkernel contains only the essential, platform-specific services required to make the system operational-such as low-level memory management, process scheduling, and inter-process communication (IPC). Everything else, including device drivers, file systems, network stacks, and user-facing features, runs as separate, isolated components outside the core kernel, typically in user space.
 
 Communication between the microkernel and the plug-in modules happens through well-defined, stable interfaces (often using IPC or message passing). Plug-ins do not communicate directly with each other; they rely on the microkernel to mediate interactions. This design is common in operating systems (e.g., QNX, L4), but also appears in application architectures like web browsers (Chrome, Firefox), IDEs (Eclipse, Visual Studio Code), and ERP systems, where a small core can be extended with optional features.
 
-The pattern emphasizes **modularity**, **extensibility**, and **fault isolation**. Because plug-ins are decoupled from the core and from each other, they can be developed, tested, deployed, and updated independently—without recompiling or restarting the entire system. However, the indirection introduced by IPC and context switches often comes at the cost of performance compared to monolithic designs.
+The pattern emphasizes **modularity**, **extensibility**, and **fault isolation**. Because plug-ins are decoupled from the core and from each other, they can be developed, tested, deployed, and updated independently-without recompiling or restarting the entire system. However, the indirection introduced by IPC and context switches often comes at the cost of performance compared to monolithic designs.
 
 ### Pros:
 
@@ -29,7 +29,7 @@ The pattern emphasizes **modularity**, **extensibility**, and **fault isolation*
 
 ### Adaptation for the Present Use Case
 
-After evaluating the classical microkernel pattern against the requirements of the three target applications (desktop, CI/CD, and microcontroller), it became evident that the full dynamic and process-isolated characteristics of the pattern introduce unnecessary complexity. The target environment is a firm-internal system where all executables are built from known source code and deployed in a controlled manner. Runtime discovery of plug-ins, inter-process communication (IPC), and separate process boundaries are therefore superfluous. The core benefits of the microkernel pattern—modularity, maintainability, and separation of concerns—can be retained while eliminating the classical drawbacks by moving to a **statically linked, single-process variant**.
+After evaluating the classical microkernel pattern against the requirements of the three target applications (desktop, CI/CD, and microcontroller), it became evident that the full dynamic and process-isolated characteristics of the pattern introduce unnecessary complexity. The target environment is a firm-internal system where all executables are built from known source code and deployed in a controlled manner. Runtime discovery of plug-ins, inter-process communication (IPC), and separate process boundaries are therefore superfluous. The core benefits of the microkernel pattern-modularity, maintainability, and separation of concerns-can be retained while eliminating the classical drawbacks by moving to a **statically linked, single-process variant**.
 
 #### Description of the Adapted Pattern
 
@@ -58,7 +58,7 @@ This use case benefits most from the adapted pattern, as classical microkernel I
 
 #### Conclusion of the Adaptation
 
-After analysing the classical microkernel architecture and weighing it against the constraints of the three target applications, this thesis adopts a **statically linked, single-process variant** of the pattern. The adaptation preserves the essential advantages—modularity, separation of concerns, and maintainability—while eliminating the classical drawbacks of runtime overhead, IPC complexity, and dynamic discovery fragility. For a firm-internal system where all deployments are controlled and rebuilds are feasible, this variant offers the best trade-off and will be documented as a pragmatic reinterpretation of the microkernel pattern for resource-aware and closed-environment software systems.
+After analysing the classical microkernel architecture and weighing it against the constraints of the three target applications, this thesis adopts a **statically linked, single-process variant** of the pattern. The adaptation preserves the essential advantages-modularity, separation of concerns, and maintainability-while eliminating the classical drawbacks of runtime overhead, IPC complexity, and dynamic discovery fragility. For a firm-internal system where all deployments are controlled and rebuilds are feasible, this variant offers the best trade-off and will be documented as a pragmatic reinterpretation of the microkernel pattern for resource-aware and closed-environment software systems.
 
 
 

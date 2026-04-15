@@ -26,13 +26,13 @@
 | Metrics | Number of supported platforms <br> Ease of cross-compilation for embedded targets |
 
 ## 5. Performance / Efficiency
-| Description | Runtime performance and memory usage, critical for constrained environments. |
+| Description | Runtime performance and memory usage. |
 |-|-|
 | Sub-factors | Execution speed <br> Memory footprint <br> Overhead from layers/abstraction |
 | Metrics | Binary size for embedded targets <br> Latency introduced by additional layers (virtual function call vs REST call) |
 
 ## 6. Tooling and Language Support
-| Description | How well the architecture fits the language, compiler, and development tools. |
+| Description | How well the architecture fits the language, compiler, and development tools. (C++23) |
 |-|-|
 | Sub-factors | IDE/framework support for pattern <br> Compiler/linker support for optimizations (dead code elimination, function sections) <br> Build automation support |
 | Metrics | Number of tools/frameworks supporting the pattern <br> Complexity of build scripts |

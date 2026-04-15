@@ -1,8 +1,7 @@
 ---
 bibliography: code/refs.bib
 ---
-
-## Model-View-ViewModel (MVVM) [1][2][3][4][5]
+## Model-View-ViewModel (MVVM)
 
 The Model-View-ViewModel (MVVM) is a GUI architecture pattern that separates an application into three distinct components: the **Model**, the **View**, and the **ViewModel**.
 
@@ -34,37 +33,4 @@ This separation ensures each component can be developed and tested independently
 - **Boilerplate Overhead**: In many implementations, each bindable property requires a backing field and explicit property-change notification logic, leading to repetitive code that bloats the ViewModel.
 - **Increased Memory Consumption**: The infrastructure required for data binding and property-change notifications adds runtime overhead and can lead to higher memory usage compared to simpler patterns.
 
-
-
-
-
-
-## Architectural Patterns: MVC, MVP, and MVVM Explained
-- [1]: https://appmaster.io/blog/architectural-patterns-mvc-mvp-and-mvvm#model-view-presenter-mvp
-| Link | https://appmaster.io/blog/architectural-patterns-mvc-mvp-and-mvvm#model-view-presenter-mvp |
-|-|-|
-| Retrieved | 2026-04-09 |
-
-## MVC vs MVP vs MVVM
-- [2]: https://www.educative.io/answers/mvc-vs-mvp-vs-mvvm
-| Link | https://www.educative.io/answers/mvc-vs-mvp-vs-mvvm |
-|-|-|
-| Retrieved | 2026-04-09 |
-
-## What is MVVM?
-- [3]: https://learn.microsoft.com/en-gb/training/modules/design-mvvm-viewmodel/2-what-is-mvvm
-| Link | https://learn.microsoft.com/en-gb/training/modules/design-mvvm-viewmodel/2-what-is-mvvm |
-|-|-|
-| Retrieved | 2026-04-10 |
-
-## MVVM Revisited: Exploring Design Variants of the Model-View-ViewModel Pattern
-- [4]: https://ar5iv.labs.arxiv.org/html/2504.18191
-| Link | https://ar5iv.labs.arxiv.org/html/2504.18191 |
-|-|-|
-| Retrieved | 2026-04-10 |
-
-## Getting to Grips with MVVM Architecture
-- [5]: https://www.netguru.com/blog/mvvm-architecture
-| Link | https://www.netguru.com/blog/mvvm-architecture |
-|-|-|
-| Retrieved | 2026-04-09 |
+[@team2023architec] [@educativeionodatemvc] [@jamesmontemagnonodatewhat] [@ar5ivlabsarxivorgnodatemvvm] [@netgurucomnodatewwwnetgu]

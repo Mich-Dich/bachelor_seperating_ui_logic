@@ -3,7 +3,7 @@
 
 ## Abstract
 
-The primary objective of this bachelor thesis is to analyze software architectural patterns that enforce a clear separation between business logic—the part of the system responsible for core processing, calculations, and device control—and user interface concerns. The focus is on ensuring high-quality boundaries between these two areas, which improves maintainability, clarity of responsibilities, and supports flexible deployment across different environments.
+The primary objective of this bachelor thesis is to analyze software architectural patterns that enforce a clear separation between business logic-the part of the system responsible for core processing, calculations, and device control-and user interface concerns. The focus is on ensuring high-quality boundaries between these two areas, which improves maintainability, clarity of responsibilities, and supports flexible deployment across different environments.
 
 The investigation covers a broad set of architectural styles, organized into classical presentation-separation patterns, domain-centric architectures, and plugin-based or facade-oriented patterns. For each style, the thesis examines how business logic can be designed to remain conceptually independent from UI frameworks, external services, and infrastructure details, while still being operable through UI platforms.
 
